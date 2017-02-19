@@ -2,8 +2,7 @@
 Introduction to the Course Basics of Data
 ========================================================
 author: S. Morteza Najibi
-date:  
-font-family: Garamond
+date: Feb. 2017
 
 Persian Gulf University
 
@@ -38,19 +37,13 @@ How this class will work
 - Keep up with the readings and assignments!
 
 
-Mechanics
-========================================================
-- Two lectures a week: concepts, methods, examples (10%)
-- Lab to try stuff out and get fast feedback (10%)
-- HW weekly to do longer and more complex things (15%)
-- Mid-term project (2 weeks) (15%)
-- Shiny Web Developed RMarkdown Grouped Project (10%)
-- Final group project (1 month) (30%)
+
 
 ========================================================
 Assignments, class notes, grading policies, useful links on R:
-- http://www.smnajibi.ir/education
-- http://www.smnajibi.ir
+
+SDAT Course Ware System: 
+- http://www.cw.sdat.ir/
 
 
 
