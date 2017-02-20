@@ -10,6 +10,7 @@ output: ioslides_presentation
 
 ## Agenda
 
+
 - Course overview and mechanics
 - Built-in data types
 - Built-in functions and operators
@@ -25,7 +26,12 @@ output: ioslides_presentation
 
 
 
+<<<<<<< HEAD:Section1.Rmd
 ## How this class will work
+=======
+How this class will work
+========================================================
+>>>>>>> origin/master:Section1.md
 
 - No programming knowledge presumed
 - Some stats. knowledge presumed
@@ -45,6 +51,11 @@ output: ioslides_presentation
 
 ## assignment
 
+<<<<<<< HEAD:Section1.Rmd
+=======
+========================================================
+
+>>>>>>> origin/master:Section1.md
 Assignments, class notes, grading policies, useful links on R:
 - http://www.smnajibi.ir/education
 - http://www.smnajibi.ir
@@ -53,6 +64,12 @@ Assignments, class notes, grading policies, useful links on R:
 
 ## The class in a nutshell: Functional programming
 
+<<<<<<< HEAD:Section1.Rmd
+=======
+The class in a nutshell: Functional programming
+========================================================
+
+>>>>>>> origin/master:Section1.md
 2 sorts of things (**objects**): **data** and **functions**
 
 - **Data**:  things like 7, "seven", $7.000$, the matrix $\left[ \begin{array}{ccc} 7 & 7 & 7 \\ 7 & 7 & 7\end{array}\right]$
@@ -62,7 +79,11 @@ Assignments, class notes, grading policies, useful links on R:
 > A function is a machine which turns input objects (**arguments**) into an output object (**return value**), possibly with **side effects**, according to a definite rule
 
 
+<<<<<<< HEAD:Section1.Rmd
 ## Continue
+=======
+==========
+>>>>>>> origin/master:Section1.md
 
 Programming is writing functions to transform inputs into outputs
 
