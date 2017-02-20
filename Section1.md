@@ -12,6 +12,7 @@ Lecture 1, Statistical Computing Course
 Agenda
 ========================================================
 
+
 - Course overview and mechanics
 - Built-in data types
 - Built-in functions and operators
@@ -30,6 +31,7 @@ Why good statisticians learn to program
 
 How this class will work
 ========================================================
+
 - No programming knowledge presumed
 - Some stats. knowledge presumed
 - General programming mixed with data-manipulation and statistical inference
@@ -40,6 +42,7 @@ How this class will work
 
 
 ========================================================
+
 Assignments, class notes, grading policies, useful links on R:
 
 SDAT Course Ware System: 
@@ -49,6 +52,7 @@ SDAT Course Ware System:
 
 The class in a nutshell: Functional programming
 ========================================================
+
 2 sorts of things (**objects**): **data** and **functions**
 
 - **Data**:  things like 7, "seven", $7.000$, the matrix $\left[ \begin{array}{ccc} 7 & 7 & 7 \\ 7 & 7 & 7\end{array}\right]$
@@ -59,6 +63,7 @@ The class in a nutshell: Functional programming
 
 
 ==========
+
 Programming is writing functions to transform inputs into outputs
 
 Good programming ensures the transformation is done easily and correctly
