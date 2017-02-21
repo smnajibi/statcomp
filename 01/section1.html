@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Introduction to the Course Basics of Data</title>
+  <title>Lecture 1: Introduction to the Course Basics of Data</title>
 
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -10,6 +10,7 @@
 
 
 
+  <meta name="date" content="2017-02-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -20,7 +21,7 @@
     var SLIDE_CONFIG = {
       // Slide settings
       settings: {
-                title: 'Introduction to the Course Basics of Data',
+                title: 'Lecture 1: Introduction to the Course Basics of Data',
                         useBuilds: true,
         usePrettify: true,
         enableSlideAreas: true,
@@ -30,7 +31,7 @@
       // Author information
       presenters: [
             {
-        name:  'S. Morteza Najibi Persian Gulf University, Lecture 1, Statistical Computing Course' ,
+        name:  'S. Morteza Najibi' ,
         company: '',
         gplus: '',
         twitter: '',
@@ -93,10 +94,13 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
+            <p style="margin-top: 6px; margin-left: -2px;">February 20, 2017</p>
           </hgroup>
   </slide>
 
-<slide class=''><hgroup><h2>Agenda</h2></hgroup><article  id="agenda">
+<slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Introduction</h2></hgroup><article  id="introduction">
+
+</article></slide><slide class=''><hgroup><h2>Agenda</h2></hgroup><article  id="agenda">
 
 <ul>
 <li>Course overview and mechanics</li>
@@ -113,7 +117,7 @@
 <li><p><em>Clarity</em>: Making your method something a machine can do disciplines your thinking and makes it public; that&#39;s science</p></li>
 </ul>
 
-<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD:Section1.Rmd ## How this class will work ======= How this class will work ======================================================== &gt;&gt;&gt;&gt;&gt;&gt;&gt; origin/master:Section1.md</p>
+</article></slide><slide class=''><hgroup><h2>How this class will work</h2></hgroup><article  id="how-this-class-will-work">
 
 <ul>
 <li>No programming knowledge presumed</li>
@@ -123,60 +127,19 @@
 <li>Keep up with the readings and assignments!</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Mechanics</h2></hgroup><article  id="mechanics">
-
-<ul>
-<li>Two lectures a week: concepts, methods, examples (10%)</li>
-<li>Lab to try stuff out and get fast feedback (10%)</li>
-<li>HW weekly to do longer and more complex things (15%)</li>
-<li>Mid-term project (2 weeks) (15%)</li>
-<li>Shiny Web Developed RMarkdown Grouped Project (10%)</li>
-<li>Final group project (1 month) (30%)</li>
-</ul>
-
 </article></slide><slide class=''><hgroup><h2>assignment</h2></hgroup><article  id="assignment">
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD:Section1.Rmd</h2></hgroup><article  id="headsection1.rmd">
+<p>Assignments, class notes, grading policies, useful links on R:</p>
 
-<p>========================================================</p>
+<ul>
+<li><a href='http://cw.sdat.ir' title=''>http://cw.sdat.ir</a></li>
+</ul>
 
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>origin/master:Section1.md Assignments, class notes, grading policies, useful links on R: - <a href='http://www.smnajibi.ir/education' title=''>http://www.smnajibi.ir/education</a> - <a href='http://www.smnajibi.ir' title=''>http://www.smnajibi.ir</a></p>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>R Basics</h2></hgroup><article  id="r-basics">
 
 </article></slide><slide class=''><hgroup><h2>The class in a nutshell: Functional programming</h2></hgroup><article  id="the-class-in-a-nutshell-functional-programming">
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD:Section1.Rmd</h2></hgroup><article  id="headsection1.rmd-1">
-
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>The class in a nutshell: Functional programming</h2></hgroup><article  id="the-class-in-a-nutshell-functional-programming-1">
-
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>origin/master:Section1.md 2 sorts of things (<strong>objects</strong>): <strong>data</strong> and <strong>functions</strong></p>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
+<p>2 sorts of things (<strong>objects</strong>): <strong>data</strong> and <strong>functions</strong></p>
 
 <ul>
 <li><p><strong>Data</strong>: things like 7, &quot;seven&quot;, \(7.000\), the matrix \(\left[ \begin{array}{ccc} 7 &amp; 7 &amp; 7 \\ 7 &amp; 7 &amp; 7\end{array}\right]\)</p></li>
@@ -187,7 +150,7 @@
 <p>A function is a machine which turns input objects (<strong>arguments</strong>) into an output object (<strong>return value</strong>), possibly with <strong>side effects</strong>, according to a definite rule</p>
 </blockquote>
 
-<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD:Section1.Rmd ## Continue ======= ========== &gt;&gt;&gt;&gt;&gt;&gt;&gt; origin/master:Section1.md</p>
+</article></slide><slide class=''><hgroup><h2>Continue</h2></hgroup><article  id="continue">
 
 <p>Programming is writing functions to transform inputs into outputs</p>
 
@@ -238,7 +201,7 @@
 
 <pre >## [1] 16807</pre>
 
-</article></slide><slide class=''><hgroup><h2>Continue</h2></hgroup><article  id="continue">
+</article></slide><slide class=''><hgroup><h2>Continue</h2></hgroup><article  id="continue-1">
 
 <pre class = 'prettyprint lang-r'>7/5</pre>
 
@@ -326,6 +289,8 @@
 
 <pre >## [1] FALSE</pre>
 
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article  id="section-2">
+
 <pre class = 'prettyprint lang-r'>is.na(7/0)</pre>
 
 <pre >## [1] FALSE</pre>
@@ -336,7 +301,7 @@
 
 <p><small>Why is 7/0 not NA, but 0/0 is?</small></p>
 
-</article></slide><slide class=''><hgroup><h2></h2></hgroup><article  id="section-2">
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article  id="section-3">
 
 <pre class = 'prettyprint lang-r'>is.character(7)</pre>
 
@@ -354,7 +319,7 @@
 
 <pre >## [1] FALSE</pre>
 
-</article></slide><slide class=''><hgroup><h2></h2></hgroup><article  id="section-3">
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article  id="section-4">
 
 <pre class = 'prettyprint lang-r'>as.character(5/6)</pre>
 
@@ -394,7 +359,7 @@
 
 <pre >## [1] -1</pre>
 
-</article></slide><slide class=''><hgroup><h2></h2></hgroup><article  id="section-4">
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article  id="section-5">
 
 <p>Most variables are created with the <strong>assignment operator</strong>, <code>&lt;-</code> or <code>=</code></p>
 
@@ -420,7 +385,9 @@ circumference.in.cubits</pre>
 
 <pre >## [1] 30</pre>
 
-</article></slide><slide class=''><hgroup><h2></h2></hgroup><article  id="section-5">
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Workspace</h2></hgroup><article  id="workspace">
+
+</article></slide><slide class=''><hgroup><h2>Using Names</h2></hgroup><article  id="using-names">
 
 <p>Using names and variables makes code: easier to design, easier to debug, less prone to bugs, easier to improve, and easier for others to read</p>
 
@@ -539,6 +506,8 @@ x+y</pre>
 <pre class = 'prettyprint lang-r'>all.equal(c(0.5-0.3,0.3-0.1),c(0.3-0.1,0.5-0.3))</pre>
 
 <pre >## [1] TRUE</pre>
+
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Simple Functions</h2></hgroup><article  id="simple-functions">
 
 </article></slide><slide class=''><hgroup><h2>Functions on vectors</h2></hgroup><article  id="functions-on-vectors">
 
@@ -669,7 +638,9 @@ sort(names(x))</pre>
 
 <pre class = 'prettyprint lang-r'>round(7) == 7</pre>
 
-<pre >## [1] TRUE</pre></article></slide>
+<pre >## [1] TRUE</pre>
+
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Thank You</h2></hgroup><article  id="thank-you"></article></slide>
 
 
   <slide class="backdrop"></slide>

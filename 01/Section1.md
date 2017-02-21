@@ -1,12 +1,15 @@
 ---
-title: "Introduction to the Course Basics of Data"
-author: "S. Morteza Najibi Persian Gulf University, Lecture 1, Statistical Computing Course"
+title: "Lecture 1: Introduction to the Course Basics of Data"
+author: "S. Morteza Najibi"
+institute: "Persian Gulf University"
+date: "February 20, 2017"
+#output: beamer_presentation
+#theme: "SDATbeamer"
+#fontsize: 8pt
 output: ioslides_presentation
 --- 
 
-
-
-
+# Introduction
 
 ## Agenda
 
@@ -34,22 +37,15 @@ output: ioslides_presentation
 - Keep up with the readings and assignments!
 
 
-## Mechanics
-
-- Two lectures a week: concepts, methods, examples (10%)
-- Lab to try stuff out and get fast feedback (10%)
-- HW weekly to do longer and more complex things (15%)
-- Mid-term project (2 weeks) (15%)
-- Shiny Web Developed RMarkdown Grouped Project (10%)
-- Final group project (1 month) (30%)
 
 ## assignment
 
 Assignments, class notes, grading policies, useful links on R:
-- http://www.smnajibi.ir/education
-- http://www.smnajibi.ir
+
+- http://cw.sdat.ir 
 
 
+# R Basics
 
 ## The class in a nutshell: Functional programming
 
@@ -161,6 +157,11 @@ Basically "and" and "or":
 typeof(7)
 is.numeric(7)
 is.na(7)
+```
+
+## 
+
+```{r}
 is.na(7/0)
 is.na(0/0)
 ```
@@ -221,7 +222,9 @@ circumference.in.cubits <- 30
 circumference.in.cubits
 ```
 
-## 
+# Workspace
+
+## Using Names 
 
 Using names and variables makes code: easier to design, easier to debug, less prone to bugs, easier to improve,  and easier for others to read
 
@@ -314,6 +317,8 @@ identical(x,-y)
 identical(c(0.5-0.3,0.3-0.1),c(0.3-0.1,0.5-0.3))
 all.equal(c(0.5-0.3,0.3-0.1),c(0.3-0.1,0.5-0.3))
 ```
+
+# Simple Functions
 
 ## Functions on vectors
 
@@ -433,3 +438,10 @@ To test for being a whole number, use `round()`:
 ```{r}
 round(7) == 7
 ```
+
+# Thank You
+
+
+
+
+
