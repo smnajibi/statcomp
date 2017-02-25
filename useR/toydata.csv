@@ -1,0 +1,13 @@
+id,age,gender,treatment,hormone,happy,sad
+1,25,male,control,6.7,2,6.12
+2,24,male,drug1,38.5,3.36,3.53
+3,25,male,drug2,25,3.4,4.82
+4,28,male,control,98.4,5.69,0.34
+5,23,male,drug1,42.4,4.56,4.48
+6,28,male,drug2,20.3,2.89,4.57
+7,25,female,control,18.5,3.18,4.82
+8,29,female,drug1,65.2,4.78,2.24
+9,21,female,drug2,56.4,4.51,2.64
+10,26,female,control,55.7,3.9,2.71
+11,19,female,drug1,41.9,2.83,2.94
+12,30,female,drug2,54.1,3.45,1.87
