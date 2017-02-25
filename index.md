@@ -9,5 +9,5 @@ In this website you will find the slide of Statistical Computing course.
 
 ### Section 2
 
-[Slids of Section 1](https://smnajibi.github.io/statcomp/02/Section2.html) or [PDF Version](https://smnajibi.github.io/statcomp/02/Section2.pdf)
+[Slids of Section 2](https://smnajibi.github.io/statcomp/02/Section2.html) or [PDF Version](https://smnajibi.github.io/statcomp/02/Section2.pdf)
 
