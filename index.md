@@ -14,3 +14,7 @@ In this website you will find the slide of Statistical Computing course.
 ### Section 3
 
 [Slids of Section 2](https://smnajibi.github.io/statcomp/03/Section3.html) or [PDF Version](https://smnajibi.github.io/statcomp/03/Section3.pdf)
+
+### Section 4
+
+[Slids of Section 2](https://smnajibi.github.io/statcomp/04/Section4.html) or [PDF Version](https://smnajibi.github.io/statcomp/04/Section4.pdf)
