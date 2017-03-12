@@ -11,7 +11,7 @@ In this website you will find the slide of Statistical Computing course.
 
 [Slids of Section 2](https://smnajibi.github.io/statcomp/02/Section2.html) or [PDF Version](https://smnajibi.github.io/statcomp/02/Section2.pdf)
 
-## Flows and Controls: ```if, while, for```
+## Flows and Controls
 ### Section 3
 
 [Slids of Section 2](https://smnajibi.github.io/statcomp/03/Section3.html) or [PDF Version](https://smnajibi.github.io/statcomp/03/Section3.pdf)
