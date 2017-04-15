@@ -11,10 +11,6 @@ fontsize: 8pt
 ---
 
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(out.height = '150px')
-```
-
 ## Graphics in R
 
   - Exploratory Data Analysis (EDA)  
@@ -24,7 +20,7 @@ knitr::opts_chunk$set(out.height = '150px')
 
 ##  Important high-level plotting functions
 
-  - `plot`: generic x-y plotting 
+  - `plot`: generic x-y plotting
   - `barplot`: bar plots
   - `boxplot`: box-and-whisker plot
   - `hist`: histograms
@@ -33,7 +29,7 @@ knitr::opts_chunk$set(out.height = '150px')
   - `image`, `heatmap`, `contour`, `persp`: functions to generate image-like plots
   - `qqnorm`, `qqline`, `qqplot`: distribution comparison plots
   - `pairs`, `coplot`, `matplot`: display of multivariant data Help on these functions
-    
+
 ## Iris Data
 
 The iris data set is available at the [UCI Machine Learning Repository](http://archive.ics.uci.edu/ml/).
@@ -43,7 +39,7 @@ The data set was created by statistician Douglas Fisher.  The data consists of 3
   - _setosa_
   - _virginica_
   - _versicolor_
-  
+
 ## The Iris Attributes
 The data has 4 attributes:
 
@@ -72,7 +68,7 @@ other statistics may be calculated as described in the introduction to R example
 
 # Visualizations
 
-## Plot 
+## Plot
 
 - plot x versus y
 ````{r}
@@ -92,7 +88,7 @@ text(y[,1]+0.03, y[,2], rownames(y))
 
 ```{r}
 plot(y[,1], y[,2])
-myline <- lm(y[,2]~y[,1]); 
+myline <- lm(y[,2]~y[,1]);
 abline(myline, lwd=2)
 ````
 
@@ -112,13 +108,13 @@ hist(iris$Petal.Width, breaks=9)
 hist(iris$Petal.Width, breaks=19)
 ```
 
-## some notes 
+## some notes
 ##### Note, the number of breaks can be a single number, vector, function to evaluate points or character string.  
 
 ```{r hist3, out.height='150px'}
-b <- seq(min(iris$Petal.Width), max(iris$Petal.Width), 
+b <- seq(min(iris$Petal.Width), max(iris$Petal.Width),
             length=11)
-hist(iris$Petal.Width, breaks=b, col="blue", xlab="Petal Width", 
+hist(iris$Petal.Width, breaks=b, col="blue", xlab="Petal Width",
      main="Histogram of Petal Width")
 ```
 
@@ -131,7 +127,7 @@ dens.pw = density(iris$Petal.Width)
 plot(dens.pw, ylab = "f(width)", xlab = "width", main= "Density of Petal Width")
 ```
 
-## Density plot cont'd 
+## Density plot cont'd
 Let's also look at the density function of `petal.length` for each of the three classes of irises.
 
 ```{r dens2}
@@ -140,14 +136,14 @@ density.versicolor = density(iris$Petal.Length[iris$Species == "versicolor"])
 density.virginica = density(iris$Petal.Length[iris$Species == "virginica"])
 ```
 
-## Density plot cont'd 
+## Density plot cont'd
 
 ```{r dens3}
-plot(density.setosa, ylab="f(length)", xlab="length (cm)", main="Density plot of Petal 
+plot(density.setosa, ylab="f(length)", xlab="length (cm)", main="Density plot of Petal
      Legnths", xlim = c(0,8), lwd=4, col="red")
 lines(density.versicolor, col="blue", lwd=4)
 lines(density.virginica, col="green", lwd=4)
-legend(4, 2.5, c("Setosa", "Versicolor", "Virginica"), lwd=rep(4,3), 
+legend(4, 2.5, c("Setosa", "Versicolor", "Virginica"), lwd=rep(4,3),
        col=c("red", "blue", "green"))
 ```
 
@@ -162,7 +158,7 @@ ecdf.virginica = ecdf(iris$Petal.Length[iris$Species == "virginica"])
 ```
 The functions may also be plotted (notice the step function patterns)
 ```{r cdf2, eval=FALSE}
-plot(ecdf.setosa, ylab = "F(length)", xlab = "length (cm)", col.h = "red", 
+plot(ecdf.setosa, ylab = "F(length)", xlab = "length (cm)", col.h = "red",
      main = "ECDF for Petal Lengths",
       verticals = T, col.v = "red", do.p = F, lwd = 4, xlim = c(0, 8))
 lines(ecdf.versicolor, col.h = "blue", col.v = "blue", verticals = T, lwd = 4,
@@ -177,7 +173,7 @@ lines(ecdf.virginica, col.h = "green", col.v = "green", verticals = T, lwd = 4,
 ecdf.setosa = ecdf(iris$Petal.Length[iris$Species == "setosa"])
 ecdf.versicolor = ecdf(iris$Petal.Length[iris$Species == "versicolor"])
 ecdf.virginica = ecdf(iris$Petal.Length[iris$Species == "virginica"])
-plot(ecdf.setosa, ylab = "F(length)", xlab = "length (cm)", col.h = "red", 
+plot(ecdf.setosa, ylab = "F(length)", xlab = "length (cm)", col.h = "red",
      main = "ECDF for Petal Lengths",
       verticals = T, col.v = "red", do.p = F, lwd = 4, xlim = c(0, 8))
 lines(ecdf.versicolor, col.h = "blue", col.v = "blue", verticals = T, lwd = 4,
@@ -196,7 +192,7 @@ quantile.setosa = quantile(iris$Petal.Length[iris$Species == "setosa"], probs=ps
 quantile.setosa
 ```
 
----- 
+----
 
 ```{r quantile2,eval=FALSE}
 quantile.versicolor = quantile(iris$Petal.Length
@@ -204,7 +200,7 @@ quantile.versicolor = quantile(iris$Petal.Length
 quantile.virginica = quantile(iris$Petal.Length
                               [iris$Species == "virginica"], probs=ps)
 plot(ps, quantile.setosa, xlab = "p", ylab = "length (cm)",
-     main = "Quantiles for Petal Length", 
+     main = "Quantiles for Petal Length",
      type="l", lwd = 4, col="red", ylim=c(0,8))
 lines(ps, quantile.versicolor, col = "blue", lwd = 4)
 lines(ps, quantile.virginica, col = "green", lwd = 4)
@@ -216,16 +212,16 @@ lines(ps, quantile.virginica, col = "green", lwd = 4)
 ```{r,echo=FALSE}
 quantile.versicolor = quantile(iris$Petal.Length[iris$Species == "versicolor"],
                                probs=ps)
-quantile.virginica = quantile(iris$Petal.Length[iris$Species == "virginica"], 
+quantile.virginica = quantile(iris$Petal.Length[iris$Species == "virginica"],
                               probs=ps)
 
-plot(ps, quantile.setosa, xlab = "p", ylab = "length (cm)", main = "Quantiles for Petal Length", 
+plot(ps, quantile.setosa, xlab = "p", ylab = "length (cm)", main = "Quantiles for Petal Length",
      type="l", lwd = 4, col="red", ylim=c(0,8))
 lines(ps, quantile.versicolor, col = "blue", lwd = 4)
 lines(ps, quantile.virginica, col = "green", lwd = 4)
 ```
 
-## check Normality plot 
+## check Normality plot
 
 ```{r}
 hist(iris$Sepal.Length, probability=TRUE, breaks=15, col="light blue")
@@ -237,7 +233,7 @@ f <- function(t) {
 curve(f, add=T, col="blue", lwd=3, lty=2)
 ```
 
-## Q-Q plot 
+## Q-Q plot
 A q-q plot is a plot of the quantiles of the first data set against the quantiles of the second data set.
 ```{r}
 x <- iris$Sepal.Length
@@ -245,7 +241,7 @@ qqnorm(x)
 qqline(x, col="red", lwd=3)
 ````
 
-## Some more examples 
+## Some more examples
 
 ```{r}
 par(mfrow=c(1,2))
@@ -348,7 +344,7 @@ data(cars)
 layout( matrix( c(2,1,0,3), 2, 2, byrow=T ),
 c(1,6), c(4,1))
 par(mar=c(1,1,5,2)); plot(cars$dist ~ cars$speed,xlab='', ylab='',las = 1)
-rug(side=1, jitter(cars$speed, 5) );rug(side=2, jitter(cars$dist, 20) ); 
+rug(side=1, jitter(cars$speed, 5) );rug(side=2, jitter(cars$dist, 20) );
 title(main = "cars data")
 par(mar=c(1,2,5,1))
 boxplot(cars$dist, axes=F); title(ylab='Stopping distance (ft)', line=0)
@@ -363,7 +359,7 @@ data(cars)
 layout( matrix( c(2,1,0,3), 2, 2, byrow=T ),
 c(1,6), c(4,2))
 par(mar=c(1,1,5,2)); plot(cars$dist ~ cars$speed,xlab='', ylab='',las = 1)
-rug(side=1, jitter(cars$speed, 5) );rug(side=2, jitter(cars$dist, 20) ); 
+rug(side=1, jitter(cars$speed, 5) );rug(side=2, jitter(cars$dist, 20) );
 title(main = "cars data")
 par(mar=c(1,2,5,1))
 boxplot(cars$dist, axes=F); title(ylab='Stopping distance (ft)', line=0)
@@ -372,13 +368,13 @@ boxplot(cars$speed, horizontal=T, axes=F); title(xlab='Speed (mph)', line=1)
 ```
 
 
-## Exercise: Bar Plots, Pie plot, 
+## Exercise: Bar Plots, Pie plot,
 
   - Consider the same approach in this slides for `barplot`
-  
+
 ## Saving Graphics to Files
 
-After the pdf() command all graphs are redirected to file test.pdf. Works for all common formats similarly: 
+After the pdf() command all graphs are redirected to file test.pdf. Works for all common formats similarly:
 jpeg, png, ps, tiff, ...
 
 ```{r,eval=FALSE}
@@ -447,11 +443,11 @@ parallelplot(~iris[1:4] | Species, iris, horizontal.axis = FALSE,
 
 
 # ggplot2 package (a superfull package in graphic )
-## ggplot2 
+## ggplot2
 
   * What is ggplot2?
       + High-level graphics system
-      + Streamlines many graphics workflows for complex plots 
+      + Streamlines many graphics workflows for complex plots
       + Simpler qplot function provides many shortcuts
 
   * ggplot function accepts two arguments
@@ -478,7 +474,7 @@ Create sample data
 library(ggplot2,quietly = T)
 #cat <- rep(c("A", "B"), 5)
 qplot(iris$Sepal.Length, iris$Sepal.Width, geom="point")
-```` 
+````
 
 ## Prints dots with different sizes and colors
 
@@ -509,7 +505,7 @@ qplot(Sepal.Length, Petal.Width, data = iris, geom="point",
 
 ```{r}
 qplot(Sepal.Length, Petal.Width, data = iris, geom = c("point"))+
-            geom_smooth(method=lm,col=2) 
+            geom_smooth(method=lm,col=2)
 ```
 
 ## More application of qplot
@@ -517,4 +513,3 @@ qplot(Sepal.Length, Petal.Width, data = iris, geom = c("point"))+
 ```{r}
 qplot(Sepal.Length, Petal.Width, data = iris, facets = Species ~ Petal.Length)
 ```
-
