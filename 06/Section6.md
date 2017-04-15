@@ -3,11 +3,6 @@
 title: "Exploratory Data Analysis in R"
 author: "S. Morteza Najibi, Perisan Gulf University"
 date: "April 15, 2017"
-output:
-  beamer_presentation
-theme: "SDATbeamer"
-fontsize: 8pt
-#output: ioslides_presentation
 ---
 
 
