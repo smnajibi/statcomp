@@ -1,17 +1,4 @@
----
-title: "Generating Random Number and Distributions as Models"
-author: "S. Morteza Najibi, Perisan Gulf University"
-date: "April 24, 2017"
-output:
-  beamer_presentation
-theme: "SDATbeamer"
-fontsize: 8pt
-#output: ioslides_presentation
----
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(out.height = '150px')
-```
 
 ## Today
 
