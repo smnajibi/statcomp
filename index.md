@@ -28,3 +28,9 @@ In this website you will find the slide of Statistical Computing course.
 ### Section 6
 
 [Slids of Section 6](https://smnajibi.github.io/statcomp/06/Section6.html) or [PDF Version](https://smnajibi.github.io/statcomp/06/Section6.pdf)
+
+## Estimation and Data fitting
+### Section 7
+
+[Slids of Section 7](https://smnajibi.github.io/statcomp/07/Section7.html) or [PDF Version](https://smnajibi.github.io/statcomp/07/Section7.pdf)
+

@@ -1,0 +1,292 @@
+---
+title: "Generating Random Number and Distributions as Models"
+author: "S. Morteza Najibi, Perisan Gulf University"
+date: "April 24, 2017"
+output:
+  beamer_presentation
+theme: "SDATbeamer"
+fontsize: 8pt
+#output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(out.height = '150px')
+```
+
+## Today
+
+- How _does_ R get "random" numbers, anyway? 
+- It doesn't, really -- it uses a trick that should be indistinguishable from the real McCoy 
+
+## These Cost Money and I'm Cheap
+
+Pseudorandom generators produce a deterministic sequence that is indistiguishable from a true random sequence if you don't know how it started.
+
+## Example: `runif`, where we know where it started
+
+```{r}
+runif(1:10)
+set.seed(10)
+runif(1:10)
+set.seed(10)
+runif(1:10)
+```
+
+
+## How does R get everything we need?
+
+A few distributions of interest:
+
+- Discret Uniform{1,...,n}
+- Uniform(0,1)
+- Bernoulli(p)
+- Binomial(n,p)
+- normal(mu,sigma)
+- Exponential(lambda)
+- Gamma(n,lambda)
+
+## `sample()`
+
+Use `sample` function to generate random number from a discret uniform distribution
+```{r}
+sample(1:10,size = 5,replace = T)
+sample(10,size = 5,replace = T) # if the first argument is not vector
+```
+## In R: everything we need
+
+Suppose we were working with the Exponential distribution.
+
+- `rexp()` generates variates from the distribution.
+- `dexp()` gives the probability density function.
+- `pexp()` gives the cumulative distribution function.
+- `qexp()` gives the quantiles.
+
+
+## R commands for distributions
+
+- `d`_foo_ = the probability _d_ ensity (if continuous) or probability mass function of _foo_ (pdf or pmf)
+- `p`_foo_ = the cumulative _p_ robability function (CDF)
+- `q`_foo_ = the _q_ uantile function (inverse to CDF)
+- `r`_foo_ = draw _r_ andom numbers from `foo` (first argument always the number of draws)
+
+`?Distributions` to see which distributions are built in
+
+If you write your own, follow the conventions
+
+## Examples
+
+```{r}
+dnorm(x=c(-1,0,1),mean=1,sd=0.1)
+pnorm(q=c(2,-2)) # defaults to mean=0,sd=1
+dbinom(5,size=7,p=0.7,log=TRUE)
+qchisq(p=0.95,df=5)
+rt(n=4,df=2)
+```
+
+
+## Displaying Probability Distributions
+
+`curve` is very useful for the `d`, `p`, `q` functions:
+```{r}
+curve(dgamma(x,shape=45,scale=1.9),from=0,to=200)
+```
+
+N.B.: the `r` functions aren't things it makes much sense to plot
+
+
+## How Do We Fit Distributional Models to the Data?
+
+- Match moments (mean, variance, etc.)
+- Match other summary statistics
+- Maximize the likelihood
+
+
+## Method of Moments (MM), Closed Form
+
+- Pick enough moments that they **identify** the parameters
+    + At least 1 moment per parameter; algebraically independent
+- Write equations for the moments in terms of the parameters  
+e.g., for gamma
+\[
+E(X) = \bar{x}  ~,~ E(X^2) = \bar{x^2}
+\]
+- Do the algebra by hand to solve the equations
+\[
+shape=\bar{x}^2/s^2 ~,~ scale = s^2/\bar{x}
+\]
+
+```{r}
+gamma.est_MM <- function(x) {
+  m <- mean(x); v <- var(x)
+  return(c(shape=m^2/v, scale=v/m))
+}
+```
+
+
+## Maximum Likeihood
+
+- Usually we think of the parameters as fixed and consider the probability of different outcomes, $f(x;\theta)$ with $\theta$ constant and $x$ changing **Likelihood** of a parameter 
+
+- With independent data points $x_1, x_2,\ldots, x_n$, likelihood is
+\[
+L(\theta) = \prod_{i=1}^{n}{f(x_i;\theta)}
+\]
+- Multiplying lots of small numbers is numerically bad; take the log:
+\[
+\ell(\theta) = \sum_{i=1}^{n}{\log{f(x_i;\theta)}}
+\]
+
+---- 
+
+- In pseudo-code:
+
+```
+loglike.foo <- function(params, x) {
+  sum(dfoo(x=x,params,log=TRUE))
+}
+```
+
+## What Do We Do with the Likelihood?
+
+- We maximize it!
+- Sometimes we can do the maximization by hand with some calculus
+    + For Gaussian, MLE = just match the mean and variance
+    + For Pareto, MLE $\widehat{a} = 1 + 1/\overline{\log{(x/x_{\mathrm{min}})}}$
+- Doing numerical optimization
+    + Stick in a minus sign if we're using a minimization function
+    
+
+
+## fitdistr
+
+MLE for one-dimensional distributions can be done through `fitdistr` in the `MASS` package
+
+It knows about most the standard distributions, but you can also give it arbitrary probability density functions and it will try to maximize them  
+A starting value for the optimization is optional for some distributions, required for others (including user-defined densities)
+
+Returns the parameter estimates and standard errors  
+SEs come from large-$n$ approximations so use cautiously
+
+
+
+## fitdistr Examples
+
+Fit the gamma distribution to the cats' hearts:
+```{r}
+require(MASS)
+fitdistr(cats$Hwt, densfun="gamma")
+```
+Returns: estimates above, standard errors below
+
+
+
+## Checking Your Estimator
+
+- simulate, then estimate; estimates should converge as the sample grows
+```{r}
+gamma.est_MM(rgamma(100,shape=19,scale=45))
+gamma.est_MM(rgamma(1e5,shape=19,scale=45))
+gamma.est_MM(rgamma(1e6,shape=19,scale=45))
+```
+
+
+## Checking the Fit
+
+_Use your eyes_: Graphic overlays of theory vs. data
+```{r,out.height = '150px'}
+hist(cats$Hwt,prob=T,ylim=c(0,.2))
+lines(density(cats$Hwt),col=2)
+cats.gamma <- gamma.est_MM(cats$Hwt)
+curve(dgamma(x,shape=cats.gamma["shape"],scale=cats.gamma["scale"]),add=TRUE,col="blue")
+legend("topright",c("Kernel Density","Gamma"),col=c(2,4),lty=1,lwd=2)
+```
+
+
+
+
+## Kolmogorov-Smirnov Test
+
+- How much should the QQ plot  wiggle around the diagonal?
+- Answer a different question...
+- Biggest gap between theoretical and empirical CDF:
+\[
+D_{KS} = \max_{x}{\left|F(x)-\widehat{F}(x)\right|}
+\]
+- Useful because $D_{KS}$ always has the same distribution _if_ the theoretical CDF is fixed and correct
+- Also works for comparing the empirical CDFs of two samples, to see if they came from the same distribution
+
+
+
+## KS Test, Data vs. Theory
+
+```{r}
+test.data <- rnorm(100,.5,.1)
+ks.test(test.data,pnorm,mean=.1,sd=0.1)
+```
+
+Ex: How does it works for other distributions?
+
+
+## Chi-Squared Test for Discrete Distributions
+
+Compare an actual table of counts to a hypothesized probability distribution:
+
+```{r}
+coin <- rbinom(100,1,.45); chisq.test(table(coin),p=c(1/2,1/2))
+coin <- rbinom(1000,1,.45) ; chisq.test(table(coin),p=c(1/2,1/2))
+```
+
+
+
+## Chi-Squared Test: Degrees of Freedom
+
+- The _df_ is the number of cells in the table $-1$ 
+- If we estimate $q$ parameters, we need to subtract $q$ degrees of freedom
+
+
+## Chi-Squared Test for Continuous Distributions
+
+- Divide the range into bins and count the number of observations in each bin; this will be `x` in `chisq.test()`
+- Use the CDF function `p` _foo_ to calculate the theoretical probability of each bin; this is `p`
+- Plug in to `chisq.test`
+- If parameters are estimated, adjust
+
+
+
+## Chi-Squared for Continuous Data (cont'd.)
+
+- `hist()` gives us break points and counts:
+```{r}
+cats.hist <- hist(cats$Hwt,plot=FALSE)
+cats.hist$breaks
+cats.hist$counts
+```
+
+
+
+## Chi-Squared for Continuous Data (cont'd.)
+
+Use these for a $\chi^2$ test:
+```{r,warning=FALSE}
+# Why the padding by -Inf and Inf?
+p <- diff(pgamma(c(-Inf,cats.hist$breaks,Inf),shape=cats.gamma["shape"],
+                 scale=cats.gamma["scale"]))
+# Why the padding by 0 and 0?
+ chisq.test(c(0,cats.hist$counts,0),p=p)
+```
+Don't need to run `hist` first; can also use `cut` to discretize (see `?cut`)
+
+
+
+
+
+## Summary
+
+- Visualizing and computing empirical distribution
+- Parametric distributions are models
+- Methods of fitting: moments and likelihood
+- Methods of checking: visual comparisons, other statistics, tests, calibration
+
+
+
+
