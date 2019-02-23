@@ -4,7 +4,7 @@ author: "S. Morteza Najibi"
 institute: "Shiraz University"
 date: "February 16, 2019"
 #output: beamer_presentation
-theme: "SDATbeamer"
+#theme: "SDATbeamer"
 fontsize: 8pt
 #output: ioslides_presentation
 output: md_document
