@@ -1,0 +1,1239 @@
+\documentclass[8pt,ignorenonframetext,]{beamer}
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}{: }
+\setbeamercolor{caption name}{fg=normal text.fg}
+\beamertemplatenavigationsymbolsempty
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+\usetheme[]{SDATbeamer}
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\newif\ifbibliography
+\hypersetup{
+            pdftitle={Lecture 1: Introduction to the Course Basics of Data},
+            pdfauthor={S. Morteza Najibi},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+
+% Prevent slide breaks in the middle of a paragraph:
+\widowpenalties 1 10000
+\raggedbottom
+
+\AtBeginPart{
+  \let\insertpartnumber\relax
+  \let\partname\relax
+  \frame{\partpage}
+}
+\AtBeginSection{
+  \ifbibliography
+  \else
+    \let\insertsectionnumber\relax
+    \let\sectionname\relax
+    \frame{\sectionpage}
+  \fi
+}
+\AtBeginSubsection{
+  \let\insertsubsectionnumber\relax
+  \let\subsectionname\relax
+  \frame{\subsectionpage}
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+
+\title{Lecture 1: Introduction to the Course Basics of Data}
+\author{S. Morteza Najibi}
+\institute{Shiraz University}
+\date{February 16, 2019}
+
+\begin{document}
+\frame{\titlepage}
+
+\section{Introduction}\label{introduction}
+
+\begin{frame}{Agenda}
+
+\begin{itemize}
+\tightlist
+\item
+  Course overview and mechanics
+\item
+  Built-in data types
+\item
+  Built-in functions and operators
+\item
+  First data structures: Vectors and arrays
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Why good statisticians learn to program}
+
+\begin{itemize}
+\item
+  \emph{Independence}: Otherwise, you rely on someone else having given
+  you exactly the right tool
+\item
+  \emph{Honesty}: Otherwise, you end up distorting your problem to match
+  the tools you have
+\item
+  \emph{Clarity}: Making your method something a machine can do
+  disciplines your thinking and makes it public; that's science
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{How this class will work}
+
+\begin{itemize}
+\tightlist
+\item
+  No programming knowledge presumed
+\item
+  Some stats. knowledge presumed
+\item
+  General programming mixed with data-manipulation and statistical
+  inference
+\item
+  Class will be \emph{very} cumulative
+\item
+  Keep up with the readings and assignments!
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{assignment}
+
+Assignments, class notes, grading policies, useful links on R:
+
+\begin{itemize}
+\tightlist
+\item
+  \url{http://cw.sdat.ir}
+\end{itemize}
+
+\end{frame}
+
+\section{R Basics}\label{r-basics}
+
+\begin{frame}[fragile]{The class in a nutshell: Functional programming}
+
+2 sorts of things (\textbf{objects}): \textbf{data} and
+\textbf{functions}
+
+\begin{itemize}
+\item
+  \textbf{Data}: things like 7, ``seven'', \(7.000\), the matrix
+  \(\left[ \begin{array}{ccc} 7 & 7 & 7 \\ 7 & 7 & 7\end{array}\right]\)
+\item
+  \textbf{Functions}: things like \(\log{}\), \(+\) (two arguments),
+  \(<\) (two), \(\mod{}\) (two), \texttt{mean} (one)
+\end{itemize}
+
+\begin{quote}
+A function is a machine which turns input objects (\textbf{arguments})
+into an output object (\textbf{return value}), possibly with
+\textbf{side effects}, according to a definite rule
+\end{quote}
+
+\end{frame}
+
+\begin{frame}{Continue}
+
+Programming is writing functions to transform inputs into outputs
+
+Good programming ensures the transformation is done easily and correctly
+
+Machines are made out of machines; functions are made out of functions,
+like \(f(a,b) = a^2 + b^2\)
+
+\begin{quote}
+The route to good programming is to take the big transformation and
+break it down into smaller ones, and then break those down, until you
+come to tasks which the built-in functions can do
+\end{quote}
+
+\end{frame}
+
+\begin{frame}[fragile]{Before functions, data}
+
+Different kinds of data object
+
+All data is represented in binary format, by \textbf{bits} (TRUE/FALSE,
+YES/NO, 1/0)
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Booleans} Direct binary values: \texttt{TRUE} or
+  \texttt{FALSE} in R
+\item
+  \textbf{Integers}: whole numbers (positive, negative or zero),
+  represented by a fixed-length block of bits
+\item
+  \textbf{Characters} fixed-length blocks of bits, with special coding;
+  \textbf{strings} = sequences of characters
+\item
+  \textbf{Floating point numbers}: a fraction (with a finite number of
+  bits) times an exponent, like \(1.87 \times {10}^{6}\), but in binary
+  form
+\item
+  \textbf{Missing or ill-defined values}: \texttt{NA}, \texttt{NaN},
+  etc.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Operators}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Unary} \texttt{-} for arithmetic negation, \texttt{!} for
+  Boolean
+\item
+  \textbf{Binary} usual arithmetic operators, plus ones for modulo and
+  integer division; take two numbers and give a number
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{some basics}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{7}\OperatorTok{+}\DecValTok{5}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 12
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{7}\OperatorTok{-}\DecValTok{5}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{7}\OperatorTok{*}\DecValTok{5}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 35
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{7}\OperatorTok{^}\DecValTok{5}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 16807
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}[fragile]{Continue}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{7}\OperatorTok{/}\DecValTok{5}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1.4
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{7} \OperatorTok{%%}\StringTok{ }\DecValTok{5}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{7} \OperatorTok{%/%}\StringTok{ }\DecValTok{5}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}{The R Console}
+
+Basic interaction with R is by typing in the \textbf{console}, a.k.a.
+\textbf{terminal} or \textbf{command-line}
+
+You type in commands, R gives back answers (or errors)
+
+Menus and other graphical interfaces are extras built on top of the
+console
+
+\end{frame}
+
+\begin{frame}[fragile]{Operators cont'd.}
+
+\textbf{Comparisons} are also binary operators; they take two objects,
+like numbers, and give a Boolean
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{7} \OperatorTok{>}\StringTok{ }\DecValTok{5}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{7} \OperatorTok{<}\StringTok{ }\DecValTok{5}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] FALSE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{7} \OperatorTok{>=}\StringTok{ }\DecValTok{7}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{7} \OperatorTok{<=}\StringTok{ }\DecValTok{5}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] FALSE
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}[fragile]{}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{7} \OperatorTok{==}\StringTok{ }\DecValTok{5}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] FALSE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{7} \OperatorTok{!=}\StringTok{ }\DecValTok{5}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}[fragile]{Boolean operators}
+
+Basically ``and'' and ``or'':
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(}\DecValTok{5} \OperatorTok{>}\StringTok{ }\DecValTok{7}\NormalTok{) }\OperatorTok{&}\StringTok{ }\NormalTok{(}\DecValTok{6}\OperatorTok{*}\DecValTok{7} \OperatorTok{==}\StringTok{ }\DecValTok{42}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] FALSE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(}\DecValTok{5} \OperatorTok{>}\StringTok{ }\DecValTok{7}\NormalTok{) }\OperatorTok{|}\StringTok{ }\NormalTok{(}\DecValTok{6}\OperatorTok{*}\DecValTok{7} \OperatorTok{==}\StringTok{ }\DecValTok{42}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+(will see special doubled forms, \texttt{\&\&} and
+\texttt{\textbar{}\textbar{}}, later)
+
+\end{frame}
+
+\begin{frame}[fragile]{More types}
+
+\texttt{typeof()} function returns the type
+
+\texttt{is.}\emph{foo}\texttt{()} functions return Booleans for whether
+the argument is of type \emph{foo}
+
+\texttt{as.}\emph{foo}\texttt{()} (tries to) ``cast'' its argument to
+type \emph{foo} --- to translate it sensibly into a \emph{foo}-type
+value
+
+\end{frame}
+
+\begin{frame}[fragile]{}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{typeof}\NormalTok{(}\DecValTok{7}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "double"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{is.numeric}\NormalTok{(}\DecValTok{7}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{is.na}\NormalTok{(}\DecValTok{7}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] FALSE
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}[fragile]{}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{is.na}\NormalTok{(}\DecValTok{7}\OperatorTok{/}\DecValTok{0}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] FALSE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{is.na}\NormalTok{(}\DecValTok{0}\OperatorTok{/}\DecValTok{0}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+Why is 7/0 not NA, but 0/0 is?
+
+\end{frame}
+
+\begin{frame}[fragile]{}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{is.character}\NormalTok{(}\DecValTok{7}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] FALSE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{is.character}\NormalTok{(}\StringTok{"7"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{is.character}\NormalTok{(}\StringTok{"seven"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{is.na}\NormalTok{(}\StringTok{"seven"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] FALSE
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}[fragile]{}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{as.character}\NormalTok{(}\DecValTok{5}\OperatorTok{/}\DecValTok{6}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "0.833333333333333"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(}\DecValTok{5}\OperatorTok{/}\DecValTok{6}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.8333333
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{6}\OperatorTok{*}\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(}\DecValTok{5}\OperatorTok{/}\DecValTok{6}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{5}\OperatorTok{/}\DecValTok{6} \OperatorTok{==}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(}\DecValTok{5}\OperatorTok{/}\DecValTok{6}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] FALSE
+\end{verbatim}
+
+(why is that last FALSE?)
+
+\end{frame}
+
+\begin{frame}[fragile]{Data can have names}
+
+We can give names to data objects; these give us \textbf{variables}
+
+A few variables are built in:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pi}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 3.141593
+\end{verbatim}
+
+Variables can be arguments to functions or operators, just like
+constants:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pi}\OperatorTok{*}\DecValTok{10}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 31.41593
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{cos}\NormalTok{(pi)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -1
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}[fragile]{}
+
+Most variables are created with the \textbf{assignment operator},
+\texttt{\textless{}-} or \texttt{=}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{approx.pi <-}\StringTok{ }\DecValTok{22}\OperatorTok{/}\DecValTok{7}
+\NormalTok{approx.pi}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 3.142857
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{diameter.in.cubits =}\StringTok{ }\DecValTok{10}
+\NormalTok{approx.pi}\OperatorTok{*}\NormalTok{diameter.in.cubits}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 31.42857
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}[fragile]{The assignment operator also changes values:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{circumference.in.cubits <-}\StringTok{ }\NormalTok{approx.pi}\OperatorTok{*}\NormalTok{diameter.in.cubits}
+\NormalTok{circumference.in.cubits}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 31.42857
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{circumference.in.cubits <-}\StringTok{ }\DecValTok{30}
+\NormalTok{circumference.in.cubits}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 30
+\end{verbatim}
+
+\end{frame}
+
+\section{Workspace}\label{workspace}
+
+\begin{frame}{Using Names}
+
+Using names and variables makes code: easier to design, easier to debug,
+less prone to bugs, easier to improve, and easier for others to read
+
+Avoid ``magic constants''; use named variables you will be graded on
+this!
+
+Named variables are a first step towards \textbf{abstraction}
+
+\end{frame}
+
+\begin{frame}[fragile]{The workspace}
+
+What names have you defined values for?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ls}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "approx.pi"               "circumference.in.cubits"
+## [3] "diameter.in.cubits"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{objects}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "approx.pi"               "circumference.in.cubits"
+## [3] "diameter.in.cubits"
+\end{verbatim}
+
+Getting of variables:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{rm}\NormalTok{(}\StringTok{"circumference.in.cubits"}\NormalTok{)}
+\KeywordTok{ls}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "approx.pi"          "diameter.in.cubits"
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}[fragile]{First data structure: vectors}
+
+Group related data values into one object, a \textbf{data structure}
+
+A \textbf{vector} is a sequence of values, all of the same type
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{7}\NormalTok{, }\DecValTok{8}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DecValTok{45}\NormalTok{)}
+\NormalTok{x}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]  7  8 10 45
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{is.vector}\NormalTok{(x)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+\texttt{c()} function returns a vector containing all its arguments in
+order \texttt{x{[}1{]}} is the first element, \texttt{x{[}4{]}} is the
+4th element\\
+\texttt{x{[}-4{]}} is a vector containing all but the fourth element
+
+\end{frame}
+
+\begin{frame}[fragile]{}
+
+\texttt{vector(length=6)} returns an empty vector of length 6; helpful
+for filling things up later
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{weekly.hours <-}\StringTok{ }\KeywordTok{vector}\NormalTok{(}\DataTypeTok{length=}\DecValTok{5}\NormalTok{)}
+\NormalTok{weekly.hours[}\DecValTok{5}\NormalTok{] <-}\StringTok{ }\DecValTok{8}
+\end{Highlighting}
+\end{Shaded}
+
+\end{frame}
+
+\begin{frame}[fragile]{Vector arithmetic}
+
+Operators apply to vectors ``pairwise'' or ``elementwise'':
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{y <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\OperatorTok{-}\DecValTok{7}\NormalTok{, }\OperatorTok{-}\DecValTok{8}\NormalTok{, }\OperatorTok{-}\DecValTok{10}\NormalTok{, }\OperatorTok{-}\DecValTok{45}\NormalTok{)}
+\NormalTok{x}\OperatorTok{+}\NormalTok{y}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0 0 0 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x}\OperatorTok{*}\NormalTok{y}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]   -49   -64  -100 -2025
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}[fragile]{Recycling}
+
+\textbf{Recycling} repeat elements in shorter vector when combined with
+longer
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OperatorTok{+}\StringTok{ }\KeywordTok{c}\NormalTok{(}\OperatorTok{-}\DecValTok{7}\NormalTok{,}\OperatorTok{-}\DecValTok{8}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]  0  0  3 37
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x}\OperatorTok{^}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\OperatorTok{-}\DecValTok{1}\NormalTok{,}\FloatTok{0.5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 7.000000 1.000000 0.100000 6.708204
+\end{verbatim}
+
+Single numbers are vectors of length 1 for purposes of recycling:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{2}\OperatorTok{*}\NormalTok{x}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 14 16 20 90
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}[fragile]{}
+
+Can also do pairwise comparisons:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OperatorTok{>}\StringTok{ }\DecValTok{9}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] FALSE FALSE  TRUE  TRUE
+\end{verbatim}
+
+Note: returns Boolean vector
+
+Boolean operators work elementwise:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(x }\OperatorTok{>}\StringTok{ }\DecValTok{9}\NormalTok{) }\OperatorTok{&}\StringTok{ }\NormalTok{(x }\OperatorTok{<}\StringTok{ }\DecValTok{20}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] FALSE FALSE  TRUE FALSE
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}[fragile]{}
+
+To compare whole vectors, best to use \texttt{identical()} or
+\texttt{all.equal()}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OperatorTok{==}\StringTok{ }\OperatorTok{-}\NormalTok{y}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE TRUE TRUE TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{identical}\NormalTok{(x,}\OperatorTok{-}\NormalTok{y)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{identical}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\FloatTok{0.5}\OperatorTok{-}\FloatTok{0.3}\NormalTok{,}\FloatTok{0.3}\OperatorTok{-}\FloatTok{0.1}\NormalTok{),}\KeywordTok{c}\NormalTok{(}\FloatTok{0.3}\OperatorTok{-}\FloatTok{0.1}\NormalTok{,}\FloatTok{0.5}\OperatorTok{-}\FloatTok{0.3}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] FALSE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{all.equal}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\FloatTok{0.5}\OperatorTok{-}\FloatTok{0.3}\NormalTok{,}\FloatTok{0.3}\OperatorTok{-}\FloatTok{0.1}\NormalTok{),}\KeywordTok{c}\NormalTok{(}\FloatTok{0.3}\OperatorTok{-}\FloatTok{0.1}\NormalTok{,}\FloatTok{0.5}\OperatorTok{-}\FloatTok{0.3}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+\end{frame}
+
+\section{Simple Functions}\label{simple-functions}
+
+\begin{frame}[fragile]{Functions on vectors}
+
+Lots of functions take vectors as arguments: - \texttt{mean()},
+\texttt{median()}, \texttt{sd()}, \texttt{var()}, \texttt{max()},
+\texttt{min()}, \texttt{length()}, \texttt{sum()}: return single numbers
+- \texttt{sort()} returns a new vector - \texttt{hist()} takes a vector
+of numbers and produces a histogram, a highly structured object, with
+the side-effect of making a plot - Similarly \texttt{ecdf()} produces a
+cumulative-density-function object - \texttt{summary()} gives a
+five-number summary of numerical vectors - \texttt{any()} and
+\texttt{all()} are useful on Boolean vectors
+
+\end{frame}
+
+\begin{frame}[fragile]{Addressing vectors}
+
+Vector of indices:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x[}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{4}\NormalTok{)]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]  8 45
+\end{verbatim}
+
+Vector of negative indices
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x[}\KeywordTok{c}\NormalTok{(}\OperatorTok{-}\DecValTok{1}\NormalTok{,}\OperatorTok{-}\DecValTok{3}\NormalTok{)]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]  8 45
+\end{verbatim}
+
+(why that, and not \texttt{8\ 10}?)
+
+\end{frame}
+
+\begin{frame}[fragile]{Boolean vector}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x[x}\OperatorTok{>}\DecValTok{9}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 10 45
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{y[x}\OperatorTok{>}\DecValTok{9}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -10 -45
+\end{verbatim}
+
+\texttt{which()} turns a Boolean vector in vector of TRUE indices:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{places <-}\StringTok{ }\KeywordTok{which}\NormalTok{(x }\OperatorTok{>}\StringTok{ }\DecValTok{9}\NormalTok{)}
+\NormalTok{places}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 3 4
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{y[places]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -10 -45
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}[fragile]{Named components}
+
+You can give names to elements or components of vectors
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{names}\NormalTok{(x) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"v1"}\NormalTok{,}\StringTok{"v2"}\NormalTok{,}\StringTok{"v3"}\NormalTok{,}\StringTok{"fred"}\NormalTok{)}
+\KeywordTok{names}\NormalTok{(x)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "v1"   "v2"   "v3"   "fred"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x[}\KeywordTok{c}\NormalTok{(}\StringTok{"fred"}\NormalTok{,}\StringTok{"v1"}\NormalTok{)]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## fred   v1 
+##   45    7
+\end{verbatim}
+
+note the labels in what R prints; not actually part of the value
+
+\end{frame}
+
+\begin{frame}[fragile]{}
+
+\texttt{names(x)} is just another vector (of characters):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{names}\NormalTok{(y) <-}\StringTok{ }\KeywordTok{names}\NormalTok{(x)}
+\KeywordTok{sort}\NormalTok{(}\KeywordTok{names}\NormalTok{(x))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "fred" "v1"   "v2"   "v3"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{which}\NormalTok{(}\KeywordTok{names}\NormalTok{(x)}\OperatorTok{==}\StringTok{"fred"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 4
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}{Take-Aways}
+
+\begin{itemize}
+\tightlist
+\item
+  We write programs by composing functions to manipulate data
+\item
+  The basic data types let us represent Booleans, numbers, and
+  characters
+\item
+  Data structure let us group related values together
+\item
+  Vectors let us group values of the same type
+\item
+  Use variables rather a profusion of magic constants
+\item
+  Name components of structures to make data more meaningful
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Peculiarites of floating-point numbers}
+
+The more bits in the fraction part, the more precision
+
+The R floating-point data type is a \texttt{double}, a.k.a.
+\texttt{numeric} back when memory was expensive, the now-standard number
+of bits was twice the default
+
+Finite precision \(\Rightarrow\) arithmetic on \texttt{doubles} \(\neq\)
+arithmetic on \(\mathbb{R}\).
+
+\end{frame}
+
+\begin{frame}[fragile]{}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FloatTok{0.45} \OperatorTok{==}\StringTok{ }\DecValTok{3}\OperatorTok{*}\FloatTok{0.15}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] FALSE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FloatTok{0.45} \OperatorTok{-}\StringTok{ }\DecValTok{3}\OperatorTok{*}\FloatTok{0.15}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 5.551115e-17
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}[fragile]{}
+
+Often ignorable, but not always - Rounding errors tend to accumulate in
+long calculations - When results should be \(\approx 0\), errors can
+flip signs - Usually better to use \texttt{all.equal()} than exact
+comparison
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(}\FloatTok{0.5} \OperatorTok{-}\StringTok{ }\FloatTok{0.3}\NormalTok{) }\OperatorTok{==}\StringTok{ }\NormalTok{(}\FloatTok{0.3} \OperatorTok{-}\StringTok{ }\FloatTok{0.1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] FALSE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{all.equal}\NormalTok{(}\FloatTok{0.5}\OperatorTok{-}\FloatTok{0.3}\NormalTok{, }\FloatTok{0.3}\OperatorTok{-}\FloatTok{0.1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}[fragile]{Peculiarities of Integers}
+
+Typing a whole number in the terminal doesn't make an integer; it makes
+a double, whose fractional part is 0
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{is.integer}\NormalTok{(}\DecValTok{7}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] FALSE
+\end{verbatim}
+
+This looks like an integer
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{as.integer}\NormalTok{(}\DecValTok{7}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 7
+\end{verbatim}
+
+To test for being a whole number, use \texttt{round()}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{round}\NormalTok{(}\DecValTok{7}\NormalTok{) }\OperatorTok{==}\StringTok{ }\DecValTok{7}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+\end{frame}
+
+\section{Thank You}\label{thank-you}
+
+\end{document}
