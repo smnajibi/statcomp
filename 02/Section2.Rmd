@@ -1,13 +1,12 @@
 ---
-title: "Lecture 1: Introduction to the Course Basics of Data"
+title: 'Lecture 1: Introduction to the Course Basics of Data'
 author: "S. Morteza Najibi"
-institute: "Shiraz University"
 date: "February 25, 2019"
-#output: beamer_presentation
-#theme: "SDATbeamer"
+output:
+  slidy_presentation: default
+  ioslides_presentation: default
+institute: Shiraz University
 fontsize: 8pt
-#output: ioslides_presentation
-output: md_document
 --- 
 
 ## Agenda
