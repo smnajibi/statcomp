@@ -13,8 +13,8 @@ In this website you will find the slide of Statistical Computing course.
 
 ## Flows and Controls
 ### Section 3
-
 [Slids of Section 3](https://smnajibi.github.io/statcomp/03/Section3.html) or [PDF Version](https://smnajibi.github.io/statcomp/03/Section3.pdf)
+<!---
 
 ## Functions
 ### Section 4-5
@@ -33,4 +33,4 @@ In this website you will find the slide of Statistical Computing course.
 ### Section 7
 
 [Slids of Section 7](https://smnajibi.github.io/statcomp/07/Section7.html) or [PDF Version](https://smnajibi.github.io/statcomp/07/Section7.pdf)
-
+--!>

@@ -1,12 +1,12 @@
 ---
-title: 'Lecture 1: Introduction to the Course Basics of Data'
+title: 'Lecture 2: More Data Structures'
 author: "S. Morteza Najibi"
 date: "February 25, 2019"
-output:
-  slidy_presentation: default
-  ioslides_presentation: default
-institute: Shiraz University
+output: beamer_presentation
+theme: "SDATbeamer"
 fontsize: 8pt
+#output: ioslides_presentation
+#output: md_document
 --- 
 
 ## Agenda

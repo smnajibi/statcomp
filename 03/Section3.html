@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Lecture 2: More Data Structures</title>
+  <title>Lecture 3: Data Frames and Control</title>
 
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2019-02-25" />
+  <meta name="date" content="2019-02-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -21,7 +21,7 @@
     var SLIDE_CONFIG = {
       // Slide settings
       settings: {
-                title: 'Lecture 2: More Data Structures',
+                title: 'Lecture 3: Data Frames and Control',
                         useBuilds: true,
         usePrettify: true,
         enableSlideAreas: true,
@@ -94,635 +94,399 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">February 25, 2019</p>
+            <p style="margin-top: 6px; margin-left: -2px;">February 27, 2019</p>
           </hgroup>
   </slide>
 
-<slide class=""><hgroup><h2>Agenda</h2></hgroup><article  id="agenda">
+<slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Agenda</h2></hgroup><article  id="agenda">
 
 <ul>
-<li>Arrays</li>
-<li>Matrices</li>
-<li>Lists</li>
+<li>Making and working with data frames</li>
+<li>Conditionals: switching between different calculations</li>
+<li>Iteration: Doing something over and over</li>
+<li>Vectorizing: Avoiding explicit iteration</li>
+</ul>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>In Our Last Thrilling Episode</h2></hgroup><article  id="in-our-last-thrilling-episode">
+
+<ul>
+<li>Vectors: series of values all of the same type<br/><code>v[5]</code>, `v[&quot;name&quot;]</li>
+<li>Arrays: multi-dimensional generalization of vectors <code>a[5,6,2]</code>, <code>a[,6,]</code>, <code>a[rowname, colname, layername]</code></li>
+<li>Matrices: special 2D arrays with matrix math<br/><code>m[5,6]</code>, <code>m[,6]</code>, <code>m[,colname]</code></li>
+<li>Lists: series of values of mixed types<br/><code>l[[3]]</code>, <code>l$name</code></li>
+<li>Dataframes: hybrid of matrix and list</li>
+</ul>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Dataframes, Encore</h2></hgroup><article  id="dataframes-encore">
+
+<ul>
+<li>2D tables of data</li>
+<li>Each case/unit is a row</li>
+<li>Each variable is a column</li>
+<li>Variables can be of any type (numbers, text, Booleans, &#8230;)</li>
+<li>Both rows and columns can get names</li>
+</ul>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Creating an example dataframe</h2></hgroup><article  id="creating-an-example-dataframe">
+
+<pre class = 'prettyprint lang-r'>library(datasets)
+states &lt;- data.frame(state.x77, abb=state.abb, region=state.region, division=state.division)</pre>
+
+<p><code>data.frame()</code> is combining here a pre-existing matrix (<code>state.x77</code>), a vector of characters (<code>state.abb</code>), and two vectors of qualitative categorical variables (<strong>factors</strong>; <code>state.region</code>, <code>state.division</code>)</p>
+
+<p>Column names are preserved or guessed if not explicitly set</p>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2></h2></hgroup><article  id="section">
+
+<pre class = 'prettyprint lang-r'>colnames(states)</pre>
+
+<pre > [1] &quot;Population&quot; &quot;Income&quot;     &quot;Illiteracy&quot; &quot;Life.Exp&quot;   &quot;Murder&quot;    
+ [6] &quot;HS.Grad&quot;    &quot;Frost&quot;      &quot;Area&quot;       &quot;abb&quot;        &quot;region&quot;    
+[11] &quot;division&quot;  </pre>
+
+<pre class = 'prettyprint lang-r'>states[1,]</pre>
+
+<pre >        Population Income Illiteracy Life.Exp Murder HS.Grad Frost  Area
+Alabama       3615   3624        2.1    69.05   15.1    41.3    20 50708
+        abb region           division
+Alabama  AL  South East South Central</pre>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Dataframe access</h2></hgroup><article  id="dataframe-access">
+
+<ul>
+<li>By row and column index</li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>states[49,3]</pre>
+
+<pre >[1] 0.7</pre>
+
+<ul>
+<li>By row and column names</li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>states[&quot;Wisconsin&quot;,&quot;Illiteracy&quot;]</pre>
+
+<pre >[1] 0.7</pre>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Dataframe access (cont&#39;d)</h2></hgroup><article  id="dataframe-access-contd">
+
+<ul>
+<li>All of a row:</li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>states[&quot;Wisconsin&quot;,]</pre>
+
+<pre >          Population Income Illiteracy Life.Exp Murder HS.Grad Frost  Area
+Wisconsin       4589   4468        0.7    72.48      3    54.5   149 54464
+          abb        region           division
+Wisconsin  WI North Central East North Central</pre>
+
+<p><small>Exercise: what class is <code>states[&quot;Wisconsin&quot;,]</code>?</small></p>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Dataframe access (cont&#39;d.)</h2></hgroup><article  id="dataframe-access-contd.">
+
+<ul>
+<li>All of a column:</li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>head(states[,3])</pre>
+
+<pre >[1] 2.1 1.5 1.8 1.9 1.1 0.7</pre>
+
+<pre class = 'prettyprint lang-r'>head(states[,&quot;Illiteracy&quot;])</pre>
+
+<pre >[1] 2.1 1.5 1.8 1.9 1.1 0.7</pre>
+
+<pre class = 'prettyprint lang-r'>head(states$Illiteracy)</pre>
+
+<pre >[1] 2.1 1.5 1.8 1.9 1.1 0.7</pre>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Dataframe access (cont&#39;d.)</h2></hgroup><article  id="dataframe-access-contd.-1">
+
+<ul>
+<li>Rows matching a condition:</li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>states[states$division==&quot;New England&quot;, &quot;Illiteracy&quot;]</pre>
+
+<pre >[1] 1.1 0.7 1.1 0.7 1.3 0.6</pre>
+
+<pre class = 'prettyprint lang-r'>states[states$region==&quot;South&quot;, &quot;Illiteracy&quot;]</pre>
+
+<pre > [1] 2.1 1.9 0.9 1.3 2.0 1.6 2.8 0.9 2.4 1.8 1.1 2.3 1.7 2.2 1.4 1.4</pre>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Replacing values</h2></hgroup><article  id="replacing-values">
+
+<p>Parts or all of the dataframe can be assigned to:</p>
+
+<pre class = 'prettyprint lang-r'>summary(states$HS.Grad)</pre>
+
+<pre >   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  37.80   48.05   53.25   53.11   59.15   67.30 </pre>
+
+<pre class = 'prettyprint lang-r'>states$HS.Grad &lt;- states$HS.Grad/100
+summary(states$HS.Grad)</pre>
+
+<pre >   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.3780  0.4805  0.5325  0.5311  0.5915  0.6730 </pre>
+
+<pre class = 'prettyprint lang-r'>states$HS.Grad &lt;- 100*states$HS.Grad</pre>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>with()</h2></hgroup><article  id="with">
+
+<p>What percentage of literate adults graduated HS?</p>
+
+<pre class = 'prettyprint lang-r'>head(100*(states$HS.Grad/(100-states$Illiteracy)))</pre>
+
+<pre >[1] 42.18590 67.71574 59.16497 40.67278 63.29626 64.35045</pre>
+
+<p><code>with()</code> takes a data frame and evaluates an expression &quot;inside&quot; it:</p>
+
+<pre class = 'prettyprint lang-r'>with(states, head(100*(HS.Grad/(100-Illiteracy))))</pre>
+
+<pre >[1] 42.18590 67.71574 59.16497 40.67278 63.29626 64.35045</pre>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Data arguments</h2></hgroup><article  id="data-arguments">
+
+<p>Lots of functions take <code>data</code> arguments, and look variables up in that data frame:</p>
+
+<pre class = 'prettyprint lang-r'>plot(Illiteracy~Frost, data=states)</pre>
+
+<p><small>\(R^2 =0.45\), \(p \approx {10}^{-7}\)</small></p>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Conditionals</h2></hgroup><article  id="conditionals">
+
+<p>Have the computer decide what to do next - Mathematically: \[
+|x| = \left\{ \begin{array}{cl} x &amp; \mathrm{if}~x\geq 0 \\
+-x &amp;\mathrm{if}~ x &lt; 0\end{array}\right. ~,~ 
+\psi(x) = \left\{ \begin{array}{cl} x^2 &amp; \mathrm{if}~|x|\leq 1\\
+2|x|-1 &amp;\mathrm{if}~ |x| &gt; 1\end{array}\right.
+\]<br/><small>Exercise: plot \(\psi\) in R</small> - Computationally:</p>
+
+<pre >if the country code is not &quot;US&quot;, multiply prices by current exchange rate</pre>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>if()</h2></hgroup><article  id="if">
+
+<p>Simplest conditional:</p>
+
+<pre >if (x &gt;= 0) {
+  x
+} else {
+  -x
+}</pre>
+
+<p>Condition in <code>if</code> needs to give <em>one</em> <code>TRUE</code> or <code>FALSE</code> value</p>
+
+<p><code>else</code> clause is optional</p>
+
+<p>one-line actions don&#39;t need braces</p>
+
+<pre >if (x &gt;= 0) x else -x</pre>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Nested if()</h2></hgroup><article  id="nested-if">
+
+<p><code>if</code> can <em>nest</em> arbitrarily deeply:</p>
+
+<pre >if (x^2 &lt; 1) {
+  x^2
+} else {
+  if (x &gt;= 0) {
+    2*x-1
+  } else {
+     -2*x-1
+  }
+}</pre>
+
+<p>Can get ugly though</p>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Combining Booleans: &amp;&amp; and </h2><h3>|</h3></hgroup><article  id="combining-booleans-and">
+
+<p><code>&amp;</code> work <code>|</code> like <code>+</code> or <code>*</code>: combine terms element-wise</p>
+
+<p>Flow control wants <em>one</em> Boolean value, and to skip calculating what&#39;s not needed</p>
+
+<p><code>&amp;&amp;</code> and <code>||</code> give <em>one</em> Boolean, lazily:</p>
+
+<pre class = 'prettyprint lang-r'>(0 &gt; 0) &amp;&amp; (all.equal(42%%6, 169%%13))</pre>
+
+<pre >[1] FALSE</pre>
+
+<p><small>This <em>never</em> evaluates the complex expression on the right</small></p>
+
+<p>Use <code>&amp;&amp;</code> and <code>||</code> for control, <code>&amp;</code> and <code>|</code> for subsetting</p>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Iteration</h2></hgroup><article  id="iteration">
+
+<p>Repeat similar actions multiple times:</p>
+
+<pre class = 'prettyprint lang-r'>table.of.logarithms &lt;- vector(length=7,mode=&quot;numeric&quot;)
+table.of.logarithms</pre>
+
+<pre >[1] 0 0 0 0 0 0 0</pre>
+
+<pre class = 'prettyprint lang-r'>for (i in 1:length(table.of.logarithms)) {
+  table.of.logarithms[i] &lt;- log(i)
+}
+table.of.logarithms</pre>
+
+<pre >[1] 0.0000000 0.6931472 1.0986123 1.3862944 1.6094379 1.7917595 1.9459101</pre>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>for()</h2></hgroup><article  id="for">
+
+<pre >for (i in 1:length(table.of.logarithms)) {
+  table.of.logarithms[i] &lt;- log(i)
+}</pre>
+
+<p><code>for</code> increments a <strong>counter</strong> (here <code>i</code>) along a vector (here <code>1:length(table.of.logarithms)</code>) and <strong>loops through</strong> the **body* until it runs through the vector</p>
+
+<p>&quot;<strong>iterates over</strong> the vector&quot;</p>
+
+<p>N.B., there is a better way to do this job!</p>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>The body of the for() loop</h2></hgroup><article  id="the-body-of-the-for-loop">
+
+<p>Can contain just about anything, including: - if() clauses - other for() loops (nested iteration)</p>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Nested iteration example</h2></hgroup><article  id="nested-iteration-example">
+
+<pre >c &lt;- matrix(0, nrow=nrow(a), ncol=ncol(b))
+if (ncol(a) == nrow(b)) {
+  for (i in 1:nrow(c)) {
+    for (j in 1:ncol(c)) {
+      for (k in 1:ncol(a)) {
+        c[i,j] &lt;- c[i,j] + a[i,k]*b[k,j]
+      }
+    }
+  }
+} else {
+  stop(&quot;matrices a and b non-conformable&quot;)
+}</pre>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>while(): conditional iteration</h2></hgroup><article  id="while-conditional-iteration">
+
+<pre >while (max(x) - 1 &gt; 1e-06) {
+  x &lt;- sqrt(x)
+}</pre>
+
+<p>Condition in the argument to <code>while</code> must be a single Boolean value (like <code>if</code>)</p>
+
+<p>Body is looped over until the condition is <code>FALSE</code> <small>so can loop forever</small></p>
+
+<p>Loop never begins unless the condition starts <code>TRUE</code></p>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>for() vs. while()</h2></hgroup><article  id="for-vs.-while">
+
+<p>for() is better when the number of times to repeat (values to iterate over) is clear in advance</p>
+
+<p>while() is better when you can recognize when to stop once you&#39;re there, even if you can&#39;t guess it to begin with</p>
+
+<p>Every for() could be replaced with a while()<br/><small>Exercise: show this</small></p>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Avoiding iteration</h2></hgroup><article  id="avoiding-iteration">
+
+<p>R has many ways of <em>avoiding</em> iteration, by acting on whole objects - It&#39;s conceptually clearer - It leads to simpler code - It&#39;s faster (sometimes a little, sometimes drastically)</p>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Vectorized arithmetic</h2></hgroup><article  id="vectorized-arithmetic">
+
+<p>How many languages add 2 vectors:</p>
+
+<pre >c &lt;- vector(length(a))
+for (i in 1:length(a)) {  c[i] &lt;- a[i] + b[i]  }</pre>
+
+<p>How R adds 2 vectors:</p>
+
+<pre >a+b</pre>
+
+<p>or a triple <code>for()</code> loop for matrix multiplication vs. <code>a %*% b</code></p>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Advantages of vectorizing</h2></hgroup><article  id="advantages-of-vectorizing">
+
+<ul>
+<li>Clarity: the syntax is about <em>what</em> we&#39;re doing</li>
+<li>Concision: we write less</li>
+<li>Abstraction: the syntax hides <em>how the computer does it</em></li>
+<li>Generality: same syntax works for numbers, vectors, arrays, &#8230; <small>- Speed: modifying big vectors over and over is slow in R; work gets done by optimized low-level code</small></li>
+</ul>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Vectorized calculations</h2></hgroup><article  id="vectorized-calculations">
+
+<p>Many functions are set up to vectorize automatically</p>
+
+<pre class = 'prettyprint lang-r'>abs(-3:3)</pre>
+
+<pre >[1] 3 2 1 0 1 2 3</pre>
+
+<pre class = 'prettyprint lang-r'>log(1:7)</pre>
+
+<pre >[1] 0.0000000 0.6931472 1.0986123 1.3862944 1.6094379 1.7917595 1.9459101</pre>
+
+<p>See also <code>apply()</code> from last week</p>
+
+<p>We&#39;ll come back to this in great detail later</p>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Vectorized conditions: ifelse()</h2></hgroup><article  id="vectorized-conditions-ifelse">
+
+<pre >ifelse(x^2 &gt; 1, 2*abs(x)-1, x^2)</pre>
+
+<p>1st argument is a Boolean vector, then pick from the 2nd or 3rd vector arguments as <code>TRUE</code> or <code>FALSE</code></p>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Summary</h2></hgroup><article  id="summary">
+
+<ul>
 <li>Dataframes</li>
-<li>Structures of structures</li>
+<li><code>if</code>, nested <code>if</code>, <code>switch</code></li>
+<li>Iteration: <code>for</code>, <code>while</code></li>
+<li>Avoiding iteration with whole-object (&quot;vectorized&quot;) operations</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Vector structures, starting with arrays</h2></hgroup><article  id="vector-structures-starting-with-arrays">
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>What Is Truth?</h2></hgroup><article  id="what-is-truth">
 
-<p>Many data structures in R are made by adding bells and whistles to vectors, so &quot;vector structures&quot;</p>
+<p>0 counts as <code>FALSE</code>; other numeric values count as <code>TRUE</code>; the strings &quot;TRUE&quot; and &quot;FALSE&quot; count as you&#39;d hope; most everything else gives an error</p>
 
-<p>Most useful: <strong>arrays</strong></p>
+<p>Advice: Don&#39;t play games here; try to make sure control expressions are getting Boolean values</p>
 
-<pre class = 'prettyprint lang-r'>x &lt;- c(7, 8, 10, 45)
-x.arr &lt;- array(x,dim=c(2,2))
-x.arr</pre>
+<p><small>Conversely, in arithmetic, <code>FALSE</code> is 0 and <code>TRUE</code> is 1</p>
 
-<pre >##      [,1] [,2]
-## [1,]    7   10
-## [2,]    8   45</pre>
+<pre class = 'prettyprint lang-r'>mean(states$Murder &gt; 7)</pre>
 
-<p><code>dim</code> says how many rows and columns; filled by columns</p>
+<pre >[1] 0.48</pre>
 
-<p>Can have \(3, 4, \ldots n\) dimensional arrays; <code>dim</code> is a length-\(n\) vector</p>
+<p></small></p>
 
-</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section">
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>switch()</h2></hgroup><article  id="switch">
 
-<p>Some properties of the array:</p>
+<p>Simplify nested <code>if</code> with <code>switch()</code>: give a variable to select on, then a value for each option</p>
 
-<pre class = 'prettyprint lang-r'>dim(x.arr)</pre>
+<pre >switch(type.of.summary,
+       mean=mean(states$Murder),
+       median=median(states$Murder),
+       histogram=hist(states$Murder),
+       &quot;I don&#39;t understand&quot;)</pre>
 
-<pre >## [1] 2 2</pre>
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Exercise (off-line)</h2></hgroup><article  id="exercise-off-line">
 
-<pre class = 'prettyprint lang-r'>is.vector(x.arr)</pre>
+<p>Set <code>type.of.summary</code> to, succesively, &quot;mean&quot;, &quot;median&quot;, &quot;histogram&quot;, and &quot;mode&quot;, and explain what happens</p>
 
-<pre >## [1] FALSE</pre>
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Unconditional iteration</h2></hgroup><article  id="unconditional-iteration">
 
-<pre class = 'prettyprint lang-r'>is.array(x.arr)</pre>
+<pre >repeat {
+  print(&quot;Help! I am Dr. Morris Culpepper, trapped in an endless loop!&quot;)
+}</pre>
 
-<pre >## [1] TRUE</pre>
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>&quot;Manual&quot; control over iteration</h2></hgroup><article  id="manual-control-over-iteration">
 
-</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section-1">
+<pre >repeat {
+  if (watched) { next() }
+  print(&quot;Help! I am Dr. Morris Culpepper, trapped in an endless loop!&quot;)
+  if (rescued) { break() }
+}</pre>
 
-<pre class = 'prettyprint lang-r'>typeof(x.arr)</pre>
+<p><code>break()</code> exits the loop; <code>next()</code> skips the rest of the body and goes back into the loop</p>
 
-<pre >## [1] &quot;double&quot;</pre>
+<p>both work with <code>for()</code> and <code>while()</code> as well</p>
 
-<pre class = 'prettyprint lang-r'>str(x.arr)</pre>
-
-<pre >##  num [1:2, 1:2] 7 8 10 45</pre>
-
-<pre class = 'prettyprint lang-r'>attributes(x.arr)</pre>
-
-<pre >## $dim
-## [1] 2 2</pre>
-
-<p><code>typeof()</code> returns the type of the <em>elements</em></p>
-
-<p><code>str()</code> gives the <strong>structure</strong>: here, a numeric array, with two dimensions, both indexed 1&#8211;2, and then the actual numbers</p>
-
-<p>Exercise: try all these with <code>x</code></p>
-
-</article></slide><slide class=""><hgroup><h2>Accessing and operating on arrays</h2></hgroup><article  id="accessing-and-operating-on-arrays">
-
-<p>Can access a 2-D array either by pairs of indices or by the underlying vector:</p>
-
-<pre class = 'prettyprint lang-r'>x.arr[1,2]</pre>
-
-<pre >## [1] 10</pre>
-
-<pre class = 'prettyprint lang-r'>x.arr[3]</pre>
-
-<pre >## [1] 10</pre>
-
-</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section-2">
-
-<p>Omitting an index means &quot;all of it&quot;:</p>
-
-<pre class = 'prettyprint lang-r'>x.arr[c(1:2),2]</pre>
-
-<pre >## [1] 10 45</pre>
-
-<pre class = 'prettyprint lang-r'>x.arr[,2]</pre>
-
-<pre >## [1] 10 45</pre>
-
-</article></slide><slide class=""><hgroup><h2>Functions on arrays</h2></hgroup><article  id="functions-on-arrays">
-
-<p>Using a vector-style function on a vector structure will go down to the underlying vector, <em>unless</em> the function is set up to handle arrays specially:</p>
-
-<pre class = 'prettyprint lang-r'>which(x.arr &gt; 9)</pre>
-
-<pre >## [1] 3 4</pre>
-
-</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section-3">
-
-<p>Many functions <em>do</em> preserve array structure:</p>
-
-<pre class = 'prettyprint lang-r'>y &lt;- -x
-y.arr &lt;- array(y,dim=c(2,2))
-y.arr + x.arr</pre>
-
-<pre >##      [,1] [,2]
-## [1,]    0    0
-## [2,]    0    0</pre>
-
-<p>Others specifically act on each row or column of the array separately:</p>
-
-<pre class = 'prettyprint lang-r'>rowSums(x.arr)</pre>
-
-<pre >## [1] 17 53</pre>
-
-<p><small>We will see a lot more of this idea</small></p>
-
-</article></slide><slide class=""><hgroup><h2>Example</h2></hgroup><article  id="example">
-
-<p>Running example: resource allocation (&quot;mathematical programming&quot;)</p>
-
-<p>Factory makes cars and trucks, using labor and steel</p>
-
-<ul>
-<li>a car takes 40 hours of labor and 1 ton of steel</li>
-<li>a truck takes 60 hours and 3 tons of steel</li>
-<li>resources: 1600 hours of labor and 70 tons of steel each week</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Matrices</h2></hgroup><article  id="matrices">
-
-<p>In R, a matrix is a specialization of a 2D array</p>
-
-<pre class = 'prettyprint lang-r'>factory &lt;- matrix(c(40,1,60,3),nrow=2)
-is.array(factory)</pre>
-
-<pre >## [1] TRUE</pre>
-
-<pre class = 'prettyprint lang-r'>is.matrix(factory)</pre>
-
-<pre >## [1] TRUE</pre>
-
-<p>could also specify <code>ncol</code>, and/or <code>byrow=TRUE</code> to fill by rows.</p>
-
-<p>Element-wise operations with the usual arithmetic and comparison operators (e.g., <code>factory/3</code>)</p>
-
-<p>Compare whole matrices with <code>identical()</code> or <code>all.equal()</code></p>
-
-</article></slide><slide class=""><hgroup><h2>Matrix multiplication</h2></hgroup><article  id="matrix-multiplication">
-
-<p>Gets a special operator</p>
-
-<pre class = 'prettyprint lang-r'>six.sevens &lt;- matrix(rep(7,6),ncol=3)
-six.sevens</pre>
-
-<pre >##      [,1] [,2] [,3]
-## [1,]    7    7    7
-## [2,]    7    7    7</pre>
-
-<pre class = 'prettyprint lang-r'>factory %*% six.sevens # [2x2] * [2x3]</pre>
-
-<pre >##      [,1] [,2] [,3]
-## [1,]  700  700  700
-## [2,]   28   28   28</pre>
-
-<p><small>What happens if you try <code>six.sevens %*% factory</code>?</small></p>
-
-</article></slide><slide class=""><hgroup><h2>Multiplying matrices and vectors</h2></hgroup><article  id="multiplying-matrices-and-vectors">
-
-<p>Numeric vectors can act like proper vectors:</p>
-
-<pre class = 'prettyprint lang-r'>output &lt;- c(10,20)
-factory %*% output</pre>
-
-<pre >##      [,1]
-## [1,] 1600
-## [2,]   70</pre>
-
-<pre class = 'prettyprint lang-r'>output %*% factory</pre>
-
-<pre >##      [,1] [,2]
-## [1,]  420  660</pre>
-
-<p><small>R silently casts the vector as either a row or a column matrix</small></p>
-
-</article></slide><slide class=""><hgroup><h2>Matrix operators</h2></hgroup><article  id="matrix-operators">
-
-<p>Transpose:</p>
-
-<pre class = 'prettyprint lang-r'>t(factory)</pre>
-
-<pre >##      [,1] [,2]
-## [1,]   40    1
-## [2,]   60    3</pre>
-
-<p>Determinant:</p>
-
-<pre class = 'prettyprint lang-r'>det(factory)</pre>
-
-<pre >## [1] 60</pre>
-
-</article></slide><slide class=""><hgroup><h2>The diagonal</h2></hgroup><article  id="the-diagonal">
-
-<p>The <code>diag()</code> function can extract the diagonal entries of a matrix:</p>
-
-<pre class = 'prettyprint lang-r'>diag(factory)</pre>
-
-<pre >## [1] 40  3</pre>
-
-<p>It can also <em>change</em> the diagonal:</p>
-
-<pre class = 'prettyprint lang-r'>diag(factory) &lt;- c(35,4)
-factory</pre>
-
-<pre >##      [,1] [,2]
-## [1,]   35   60
-## [2,]    1    4</pre>
-
-<p>Re-set it for later:</p>
-
-<pre class = 'prettyprint lang-r'>diag(factory) &lt;- c(40,3)</pre>
-
-</article></slide><slide class=""><hgroup><h2>Creating a diagonal or identity matrix</h2></hgroup><article  id="creating-a-diagonal-or-identity-matrix">
-
-<pre class = 'prettyprint lang-r'>diag(c(3,4))</pre>
-
-<pre >##      [,1] [,2]
-## [1,]    3    0
-## [2,]    0    4</pre>
-
-<pre class = 'prettyprint lang-r'>diag(2)</pre>
-
-<pre >##      [,1] [,2]
-## [1,]    1    0
-## [2,]    0    1</pre>
-
-</article></slide><slide class=""><hgroup><h2>Inverting a matrix</h2></hgroup><article  id="inverting-a-matrix">
-
-<pre class = 'prettyprint lang-r'>solve(factory)</pre>
-
-<pre >##             [,1]       [,2]
-## [1,]  0.05000000 -1.0000000
-## [2,] -0.01666667  0.6666667</pre>
-
-<pre class = 'prettyprint lang-r'>factory %*% solve(factory)</pre>
-
-<pre >##      [,1] [,2]
-## [1,]    1    0
-## [2,]    0    1</pre>
-
-</article></slide><slide class=""><hgroup><h2>Why&#39;s it called &quot;solve&quot;&quot; anyway?</h2></hgroup><article  id="whys-it-called-solve-anyway">
-
-<p>Solving the linear system \(\mathbf{A}\vec{x} = \vec{b}\) for \(\vec{x}\):</p>
-
-<pre class = 'prettyprint lang-r'>available &lt;- c(1600,70)
-solve(factory,available)</pre>
-
-<pre >## [1] 10 20</pre>
-
-<pre class = 'prettyprint lang-r'>factory %*% solve(factory,available)</pre>
-
-<pre >##      [,1]
-## [1,] 1600
-## [2,]   70</pre>
-
-</article></slide><slide class=""><hgroup><h2>Names in matrices</h2></hgroup><article  id="names-in-matrices">
-
-<p>We can name either rows or columns or both, with <code>rownames()</code> and <code>colnames()</code></p>
-
-<p>These are just character vectors, and we use the same function to get and to set their values</p>
-
-<p>Names help us understand what we&#39;re working with</p>
-
-<p>Names can be used to coordinate different objects</p>
-
-</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section-4">
-
-<pre class = 'prettyprint lang-r'>rownames(factory) &lt;- c(&quot;labor&quot;,&quot;steel&quot;)
-colnames(factory) &lt;- c(&quot;cars&quot;,&quot;trucks&quot;)
-factory</pre>
-
-<pre >##       cars trucks
-## labor   40     60
-## steel    1      3</pre>
-
-<pre class = 'prettyprint lang-r'>available &lt;- c(1600,70)
-names(available) &lt;- c(&quot;labor&quot;,&quot;steel&quot;)</pre>
-
-</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section-5">
-
-<pre class = 'prettyprint lang-r'>output &lt;- c(20,10)
-names(output) &lt;- c(&quot;trucks&quot;,&quot;cars&quot;)
-factory %*% output # But we&#39;ve got cars and trucks mixed up!</pre>
-
-<pre >##       [,1]
-## labor 1400
-## steel   50</pre>
-
-<pre class = 'prettyprint lang-r'>factory %*% output[colnames(factory)]</pre>
-
-<pre >##       [,1]
-## labor 1600
-## steel   70</pre>
-
-<pre class = 'prettyprint lang-r'>all(factory %*% output[colnames(factory)] &lt;= available[rownames(factory)])</pre>
-
-<pre >## [1] TRUE</pre>
-
-<p>Notice: Last lines don&#39;t have to change if we add motorcycles as output or rubber and glass as inputs (abstraction again)</p>
-
-</article></slide><slide class=""><hgroup><h2>Doing the same thing to each row or column</h2></hgroup><article  id="doing-the-same-thing-to-each-row-or-column">
-
-<p>Take the mean: <code>rowMeans()</code>, <code>colMeans()</code>: input is matrix, output is vector. Also <code>rowSums()</code>, etc.</p>
-
-<p><code>summary()</code>: vector-style summary of column</p>
-
-<pre class = 'prettyprint lang-r'>colMeans(factory)</pre>
-
-<pre >##   cars trucks 
-##   20.5   31.5</pre>
-
-<pre class = 'prettyprint lang-r'>summary(factory)</pre>
-
-<pre >##       cars           trucks     
-##  Min.   : 1.00   Min.   : 3.00  
-##  1st Qu.:10.75   1st Qu.:17.25  
-##  Median :20.50   Median :31.50  
-##  Mean   :20.50   Mean   :31.50  
-##  3rd Qu.:30.25   3rd Qu.:45.75  
-##  Max.   :40.00   Max.   :60.00</pre>
-
-</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section-6">
-
-<p><code>apply()</code>, takes 3 arguments: the array or matrix, then 1 for rows and 2 for columns, then name of the function to apply to each</p>
-
-<pre class = 'prettyprint lang-r'>rowMeans(factory)</pre>
-
-<pre >## labor steel 
-##    50     2</pre>
-
-<pre class = 'prettyprint lang-r'>apply(factory,1,mean)</pre>
-
-<pre >## labor steel 
-##    50     2</pre>
-
-<p><small>What would <code>apply(factory,1,sd)</code> do?</small></p>
-
-</article></slide><slide class=""><hgroup><h2>Lists</h2></hgroup><article  id="lists">
-
-<p>Sequence of values, <em>not</em> necessarily all of the same type</p>
-
-<pre class = 'prettyprint lang-r'>my.distribution &lt;- list(&quot;exponential&quot;,7,FALSE)
-my.distribution</pre>
-
-<pre >## [[1]]
-## [1] &quot;exponential&quot;
-## 
-## [[2]]
-## [1] 7
-## 
-## [[3]]
-## [1] FALSE</pre>
-
-<p>Most of what you can do with vectors you can also do with lists</p>
-
-</article></slide><slide class=""><hgroup><h2>Accessing pieces of lists</h2></hgroup><article  id="accessing-pieces-of-lists">
-
-<p>Can use <code>[ ]</code> as with vectors<br/>or use <code>[[ ]]</code>, but only with a single index<br/><code>[[ ]]</code> drops names and structures, <code>[ ]</code> does not</p>
-
-<pre class = 'prettyprint lang-r'>is.character(my.distribution)</pre>
-
-<pre >## [1] FALSE</pre>
-
-<pre class = 'prettyprint lang-r'>is.character(my.distribution[[1]])</pre>
-
-<pre >## [1] TRUE</pre>
-
-<pre class = 'prettyprint lang-r'>my.distribution[[2]]^2</pre>
-
-<pre >## [1] 49</pre>
-
-<p><small>What happens if you try <code>my.distribution[2]^2</code>?</small> <small>What happens if you try <code>[[ ]]</code> on a vector?</small></p>
-
-</article></slide><slide class=""><hgroup><h2>Expanding and contracting lists</h2></hgroup><article  id="expanding-and-contracting-lists">
-
-<p>Add to lists with <code>c()</code> (also works with vectors):</p>
-
-<pre class = 'prettyprint lang-r'>my.distribution &lt;- c(my.distribution,7)
-my.distribution</pre>
-
-<pre >## [[1]]
-## [1] &quot;exponential&quot;
-## 
-## [[2]]
-## [1] 7
-## 
-## [[3]]
-## [1] FALSE
-## 
-## [[4]]
-## [1] 7</pre>
-
-</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section-7">
-
-<p>Chop off the end of a list by setting the length to something smaller (also works with vectors):</p>
-
-<pre class = 'prettyprint lang-r'>length(my.distribution)</pre>
-
-<pre >## [1] 4</pre>
-
-<pre class = 'prettyprint lang-r'>length(my.distribution) &lt;- 3
-my.distribution</pre>
-
-<pre >## [[1]]
-## [1] &quot;exponential&quot;
-## 
-## [[2]]
-## [1] 7
-## 
-## [[3]]
-## [1] FALSE</pre>
-
-</article></slide><slide class=""><hgroup><h2>Naming list elements</h2></hgroup><article  id="naming-list-elements">
-
-<p>We can name some or all of the elements of a list</p>
-
-<pre class = 'prettyprint lang-r'>names(my.distribution) &lt;- c(&quot;family&quot;,&quot;mean&quot;,&quot;is.symmetric&quot;)
-my.distribution</pre>
-
-<pre >## $family
-## [1] &quot;exponential&quot;
-## 
-## $mean
-## [1] 7
-## 
-## $is.symmetric
-## [1] FALSE</pre>
-
-<pre class = 'prettyprint lang-r'>my.distribution[[&quot;family&quot;]]</pre>
-
-<pre >## [1] &quot;exponential&quot;</pre>
-
-<pre class = 'prettyprint lang-r'>my.distribution[&quot;family&quot;]</pre>
-
-<pre >## $family
-## [1] &quot;exponential&quot;</pre>
-
-</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section-8">
-
-<p>Lists have a special short-cut way of using names, <code>$</code> (which removes names and structures):</p>
-
-<pre class = 'prettyprint lang-r'>my.distribution[[&quot;family&quot;]]</pre>
-
-<pre >## [1] &quot;exponential&quot;</pre>
-
-<pre class = 'prettyprint lang-r'>my.distribution$family</pre>
-
-<pre >## [1] &quot;exponential&quot;</pre>
-
-</article></slide><slide class=""><hgroup><h2>Names in lists (cont&#39;d.)</h2></hgroup><article  id="names-in-lists-contd.">
-
-<p>Creating a list with names:</p>
-
-<pre class = 'prettyprint lang-r'>another.distribution &lt;- list(family=&quot;gaussian&quot;,mean=7,sd=1,is.symmetric=TRUE)</pre>
-
-<p>Adding named elements:</p>
-
-<pre class = 'prettyprint lang-r'>my.distribution$was.estimated &lt;- FALSE
-my.distribution[[&quot;last.updated&quot;]] &lt;- &quot;2011-08-30&quot;</pre>
-
-<p>Removing a named list element, by assigning it the value <code>NULL</code>:</p>
-
-<pre class = 'prettyprint lang-r'>my.distribution$was.estimated &lt;- NULL</pre>
-
-</article></slide><slide class=""><hgroup><h2>Key-Value pairs</h2></hgroup><article  id="key-value-pairs">
-
-<p>Lists give us a way to store and look up data by <em>name</em>, rather than by <em>position</em></p>
-
-<p>A really useful programming concept with many names: <strong>key-value pairs</strong>, <strong>dictionaries</strong>, <strong>associative arrays</strong>, <strong>hashes</strong></p>
-
-<p>If all our distributions have components named <code>family</code>, we can look that up by name, without caring where it is in the list</p>
-
-</article></slide><slide class=""><hgroup><h2>Dataframes</h2></hgroup><article  id="dataframes">
-
-<p>Dataframe = the classic data table, \(n\) rows for cases, \(p\) columns for variables</p>
-
-<p>Lots of the really-statistical parts of R presume data frames <small><code>penn</code> from last time was really a dataframe</small></p>
-
-<p>Not just a matrix because <em>columns can have different types</em></p>
-
-<p>Many matrix functions also work for dataframes (<code>rowSums()</code>, <code>summary()</code>, <code>apply()</code>)</p>
-
-<p><small>but no matrix multiplying dataframes, even if all columns are numeric</small></p>
-
-</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section-9">
-
-<pre class = 'prettyprint lang-r'>a.matrix &lt;- matrix(c(35,8,10,4),nrow=2)
-colnames(a.matrix) &lt;- c(&quot;v1&quot;,&quot;v2&quot;)
-a.matrix</pre>
-
-<pre >##      v1 v2
-## [1,] 35 10
-## [2,]  8  4</pre>
-
-<pre class = 'prettyprint lang-r'>a.matrix[,&quot;v1&quot;]  # Try a.matrix$v1 and see what happens</pre>
-
-<pre >## [1] 35  8</pre>
-
-</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section-10">
-
-<pre class = 'prettyprint lang-r'>a.data.frame &lt;- data.frame(a.matrix,logicals=c(TRUE,FALSE))
-a.data.frame</pre>
-
-<pre >##   v1 v2 logicals
-## 1 35 10     TRUE
-## 2  8  4    FALSE</pre>
-
-<pre class = 'prettyprint lang-r'>a.data.frame$v1</pre>
-
-<pre >## [1] 35  8</pre>
-
-<pre class = 'prettyprint lang-r'>a.data.frame[,&quot;v1&quot;]</pre>
-
-<pre >## [1] 35  8</pre>
-
-<pre class = 'prettyprint lang-r'>a.data.frame[1,]</pre>
-
-<pre >##   v1 v2 logicals
-## 1 35 10     TRUE</pre>
-
-<pre class = 'prettyprint lang-r'>colMeans(a.data.frame)</pre>
-
-<pre >##       v1       v2 logicals 
-##     21.5      7.0      0.5</pre>
-
-</article></slide><slide class=""><hgroup><h2>Adding rows and columns</h2></hgroup><article  id="adding-rows-and-columns">
-
-<p>We can add rows or columns to an array or data-frame with <code>rbind()</code> and <code>cbind()</code>, but be careful about forced type conversions</p>
-
-<pre class = 'prettyprint lang-r'>rbind(a.data.frame,list(v1=-3,v2=-5,logicals=TRUE))</pre>
-
-<pre >##   v1 v2 logicals
-## 1 35 10     TRUE
-## 2  8  4    FALSE
-## 3 -3 -5     TRUE</pre>
-
-<pre class = 'prettyprint lang-r'>rbind(a.data.frame,c(3,4,6))</pre>
-
-<pre >##   v1 v2 logicals
-## 1 35 10        1
-## 2  8  4        0
-## 3  3  4        6</pre>
-
-</article></slide><slide class=""><hgroup><h2>Structures of Structures</h2></hgroup><article  id="structures-of-structures">
-
-<p>So far, every list element has been a single data value</p>
-
-<p>List elements can be other data structures, e.g., vectors and matrices:</p>
-
-<pre class = 'prettyprint lang-r'>plan &lt;- list(factory=factory, available=available, output=output)
-plan$output</pre>
-
-<pre >## trucks   cars 
-##     20     10</pre>
-
-<p>Internally, a dataframe is basically a list of vectors</p>
-
-</article></slide><slide class=""><hgroup><h2>Structures of Structures (cont&#39;d.)</h2></hgroup><article  id="structures-of-structures-contd.">
-
-<p>List elements can even be other lists<br/>which may contain other data structures<br/>including other lists<br/>which may contain other data structures&#8230;</p>
-
-<p>This <strong>recursion</strong> lets us build arbitrarily complicated data structures from the basic ones</p>
-
-<p>Most complicated objects are (usually) lists of data structures</p>
-
-</article></slide><slide class=""><hgroup><h2>Example: Eigenstuff</h2></hgroup><article  id="example-eigenstuff">
-
-<p><code>eigen()</code> finds eigenvalues and eigenvectors of a matrix<br/>Returns a list of a vector (the eigenvalues) and a matrix (the eigenvectors)</p>
-
-<pre class = 'prettyprint lang-r'>eigen(factory)</pre>
-
-<pre >## eigen() decomposition
-## $values
-## [1] 41.556171  1.443829
-## 
-## $vectors
-##            [,1]       [,2]
-## [1,] 0.99966383 -0.8412758
-## [2,] 0.02592747  0.5406062</pre>
-
-<pre class = 'prettyprint lang-r'>class(eigen(factory))</pre>
-
-<pre >## [1] &quot;eigen&quot;</pre>
-
-</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section-11">
-
-<p>With complicated objects, you can access parts of parts (of parts&#8230;)</p>
-
-<pre class = 'prettyprint lang-r'>factory %*% eigen(factory)$vectors[,2]</pre>
-
-<pre >##             [,1]
-## labor -1.2146583
-## steel  0.7805429</pre>
-
-<pre class = 'prettyprint lang-r'>eigen(factory)$values[2] * eigen(factory)$vectors[,2]</pre>
-
-<pre >## [1] -1.2146583  0.7805429</pre>
-
-<pre class = 'prettyprint lang-r'>eigen(factory)$values[2]</pre>
-
-<pre >## [1] 1.443829</pre>
-
-<pre class = 'prettyprint lang-r'>eigen(factory)[[1]][[2]] # NOT [[1,2]]</pre>
-
-<pre >## [1] 1.443829</pre>
-
-</article></slide><slide class=""><hgroup><h2>Summary</h2></hgroup><article  id="summary">
-
-<ul>
-<li>Arrays add multi-dimensional structure to vectors</li>
-<li>Matrices act like you&#39;d hope they would</li>
-<li>Lists let us combine different types of data</li>
-<li>Dataframes are hybrids of matrices and lists, for classic tabular data</li>
-<li>Recursion lets us build complicated data structures out of the simpler ones</li>
-</ul></article></slide>
+<p>Exercise: how would you replace <code>while()</code> with <code>repeat()</code>?</p></article></slide>
 
 
   <slide class="backdrop"></slide>

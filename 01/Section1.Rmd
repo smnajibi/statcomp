@@ -8,7 +8,6 @@ theme: "SDATbeamer"
 fontsize: 8pt
 #output: ioslides_presentation
 #output: md_document
-
 --- 
 
 # Introduction
