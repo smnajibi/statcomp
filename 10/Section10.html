@@ -581,7 +581,13 @@ curve(fit1$par[1]*x^fit1$par[2],add=TRUE,lty=&quot;dashed&quot;,col=&quot;blue&q
 
 <p>\[ l = −.5 n ln (2\pi)−.5 n ln(\sigma^2)− \frac{1}{2\sigma^2} \sum_{i} (y_i -\mu)^2 \] We can program this function in the following way:</p>
 
-<p><code>r   normal.lik&lt;-function(theta,y) {    mu&lt;-theta[1]   sigma2&lt;-theta[2]   n &lt;- length(y)   logl &lt;- -.5*n*log(2*pi) -.5*n*log(sigma2) - (1/(2*sigma2))*sum((y-mu)**2)    return (-logl)   }</code></p>
+<pre class = 'prettyprint lang-r'>normal.lik&lt;-function(theta,y) { 
+  mu&lt;-theta[1]
+  sigma2&lt;-theta[2]
+  n &lt;- length(y)
+  logl &lt;- -.5*n*log(2*pi) -.5*n*log(sigma2) - (1/(2*sigma2))*sum((y-mu)**2) 
+  return (-logl)
+}</pre>
 
 </article></slide><slide class=""><hgroup><h2></h2></hgroup><article >
 
@@ -595,17 +601,17 @@ curve(fit1$par[1]*x^fit1$par[2],add=TRUE,lty=&quot;dashed&quot;,col=&quot;blue&q
 optim(c(0,1),normal.lik,y=y,method=&quot;BFGS&quot;)</pre>
 
 <pre >## $par
-## [1]  1.02546 23.56716
+## [1]    0.8408724 2495.3641444
 ## 
 ## $value
-## [1] 2998.866
+## [1] 4835.106
 ## 
 ## $counts
 ## function gradient 
-##       68       35 
+##      101      100 
 ## 
 ## $convergence
-## [1] 0
+## [1] 1
 ## 
 ## $message
 ## NULL</pre>

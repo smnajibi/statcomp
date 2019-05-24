@@ -656,7 +656,17 @@ given by
 \[ l = −.5 n ln (2\pi)−.5 n ln(\sigma^2)− \frac{1}{2\sigma^2} \sum_{i} (y_i -\mu)^2 \]
 We can program this function in the following way:
 
-\texttt{r\ \ \ normal.lik\textless{}-function(theta,y)\ \{\ \ \ \ mu\textless{}-theta{[}1{]}\ \ \ sigma2\textless{}-theta{[}2{]}\ \ \ n\ \textless{}-\ length(y)\ \ \ logl\ \textless{}-\ -.5*n*log(2*pi)\ -.5*n*log(sigma2)\ -\ (1/(2*sigma2))*sum((y-mu)**2)\ \ \ \ return\ (-logl)\ \ \ \}}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{normal.lik<-}\ControlFlowTok{function}\NormalTok{(theta,y) \{ }
+\NormalTok{  mu<-theta[}\DecValTok{1}\NormalTok{]}
+\NormalTok{  sigma2<-theta[}\DecValTok{2}\NormalTok{]}
+\NormalTok{  n <-}\StringTok{ }\KeywordTok{length}\NormalTok{(y)}
+\NormalTok{  logl <-}\StringTok{ }\OperatorTok{-}\NormalTok{.}\DecValTok{5}\OperatorTok{*}\NormalTok{n}\OperatorTok{*}\KeywordTok{log}\NormalTok{(}\DecValTok{2}\OperatorTok{*}\NormalTok{pi) }\OperatorTok{-}\NormalTok{.}\DecValTok{5}\OperatorTok{*}\NormalTok{n}\OperatorTok{*}\KeywordTok{log}\NormalTok{(sigma2) }\OperatorTok{-}\StringTok{ }\NormalTok{(}\DecValTok{1}\OperatorTok{/}\NormalTok{(}\DecValTok{2}\OperatorTok{*}\NormalTok{sigma2))}\OperatorTok{*}\KeywordTok{sum}\NormalTok{((y}\OperatorTok{-}\NormalTok{mu)}\OperatorTok{**}\DecValTok{2}\NormalTok{) }
+  \KeywordTok{return}\NormalTok{ (}\OperatorTok{-}\NormalTok{logl)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
 
 \end{frame}
 
@@ -679,14 +689,14 @@ can be estimated using
 
 \begin{verbatim}
 ## $par
-## [1]  1.00050 24.42953
+## [1]  0.7522791 27.3689005
 ## 
 ## $value
-## [1] 3016.806
+## [1] 3073.641
 ## 
 ## $counts
 ## function gradient 
-##       40       25 
+##       62       43 
 ## 
 ## $convergence
 ## [1] 0

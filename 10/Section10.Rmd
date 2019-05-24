@@ -507,7 +507,7 @@ Imagine that we have a sample that was drawn from a normal distribution with unk
 $$ l = −.5 n ln (2\pi)−.5 n ln(\sigma^2)− \frac{1}{2\sigma^2} \sum_{i} (y_i -\mu)^2 $$
   We can program this function in the following way:
   
-  ```{r}
+```{r}
 normal.lik<-function(theta,y) { 
   mu<-theta[1]
   sigma2<-theta[2]
