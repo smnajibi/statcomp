@@ -1,0 +1,731 @@
+\documentclass[8pt,ignorenonframetext,]{beamer}
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}{: }
+\setbeamercolor{caption name}{fg=normal text.fg}
+\beamertemplatenavigationsymbolsempty
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+\usetheme[]{SDATbeamer}
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\newif\ifbibliography
+\hypersetup{
+            pdftitle={Numerical Optimization},
+            pdfauthor={S. Morteza Najibi, Shiraz University},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight0.8\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+
+% Prevent slide breaks in the middle of a paragraph:
+\widowpenalties 1 10000
+\raggedbottom
+
+\AtBeginPart{
+  \let\insertpartnumber\relax
+  \let\partname\relax
+  \frame{\partpage}
+}
+\AtBeginSection{
+  \ifbibliography
+  \else
+    \let\insertsectionnumber\relax
+    \let\sectionname\relax
+    \frame{\sectionpage}
+  \fi
+}
+\AtBeginSubsection{
+  \let\insertsubsectionnumber\relax
+  \let\subsectionname\relax
+  \frame{\subsectionpage}
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+
+\title{Numerical Optimization}
+\author{S. Morteza Najibi, Shiraz University}
+\date{May 25, 2019}
+
+\begin{document}
+\frame{\titlepage}
+
+\begin{frame}[fragile]
+
+\#\# Agenda
+
+\begin{itemize}
+\tightlist
+\item
+  Basics of optimization
+\item
+  Gradient descent
+\item
+  Newton's method
+\item
+  Curve-fitting
+\item
+  R: \texttt{optim}, \texttt{nls}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Examples of Optimization Problems}
+
+\begin{itemize}
+\tightlist
+\item
+  Minimize mean-squared error of regression surface
+\item
+  Maximize likelihood of distribution
+\item
+  Maximize output of tanks from given supplies and factories;
+\item
+  Maximize return of portfolio for given volatility
+\item
+  Minimize cost of airline flight schedule
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Optimization Problems}
+
+Given an \textbf{objective function} \(f: \mathcal{D} \mapsto R\), find
+
+\[
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+\theta^* = \argmin_{\theta}{f(\theta)}
+\]
+
+Basics: maximizing \(f\) is minimizing \(-f\):
+
+\[
+\argmax_{\theta}{f(\theta)}= \argmin_{\theta}{-f(\theta)}
+\]
+
+If \(h\) is strictly increasing (e.g., \(\log\)), then
+
+\[
+\argmin_{\theta}{f(\theta)} = \argmin_{\theta}{h(f(\theta))}
+\]
+
+\end{frame}
+
+\begin{frame}{Considerations}
+
+\begin{itemize}
+\item
+  Approximation: How close can we get to \(\theta^*\), and/or
+  \(f(\theta^*)\)?
+\item
+  Time complexity: How many computer steps does that take?\\
+  Varies with precision of approximation, niceness of \(f\), size of
+  \(\mathcal{D}\), size of data, method\ldots{}
+\item
+  Most optimization algorithms use \textbf{successive approximation}, so
+  distinguish number of iterations from cost of each iteration
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{You remember calculus, right?}
+
+Suppose \(x\) is one dimensional and \(f\) is smooth. If \(x^*\) is an
+\textbf{interior} minimum / maximum / extremum point
+
+\[
+{\left. \frac{df}{dx} \right|}_{x=x^*} = 0
+\]
+
+If \(x^*\) a minimum, \[
+{\left. \frac{d^2f}{dx^2}\right|}_{x=x^*} > 0
+\]
+
+\end{frame}
+
+\begin{frame}
+
+This all carries over to multiple dimensions:
+
+At an \textbf{interior extremum}, \[
+\nabla f(\theta^*) = 0
+\]
+
+At an \textbf{interior minimum}, \[
+\nabla^2 f(\theta^*) \geq 0
+\] meaning for any vector \(v\), \[
+v^T \nabla^2 f(\theta^*) v \geq 0
+\] \(\nabla^2 f =\) the \textbf{Hessian}, \(\mathbf{H}\)
+
+\(\theta\) might just be a \textbf{local} minimum
+
+\end{frame}
+
+\begin{frame}{Gradients and Changes to f}
+
+\[
+f^{\prime}(x_0)  =  {\left. \frac{df}{dx}\right|}_{x=x_0} = \lim_{x\rightarrow x_0}{\frac{f(x)-f(x_0)}{x-x_0}} \]
+
+\[    f(x)  \approx f(x_0) +(x-x_0)f^{\prime}(x_0)
+\]
+
+Locally, the function looks linear; to minimize a linear function, move
+down the slope
+
+Multivariate version: \[
+f(\theta) \approx f(\theta_0) + (\theta-\theta_0) \cdot \nabla f(\theta_0)
+\]
+
+\(\nabla f(\theta_0)\) points in the direction of fastest ascent at
+\(\theta_0\)
+
+\end{frame}
+
+\begin{frame}{Gradient Descent}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Start with initial guess for \(\theta\), step-size \(\eta\)
+\item
+  While ((not too tired) and (making adequate progress))
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  Find gradient \(\nabla f(\theta)\)
+\item
+  Set \(\theta \leftarrow \theta - \eta \nabla f(\theta)\)
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Return final \(\theta\) as approximate \(\theta^*\)
+\end{enumerate}
+
+Variations: adaptively adjust \(\eta\) to make sure of improvement or
+search along the gradient direction for minimum
+
+\end{frame}
+
+\begin{frame}{Taylor Series}
+
+What if we do a quadratic approximation to \(f\)?
+
+\[
+f(x) \approx f(x_0) + (x-x_0)f^{\prime}(x_0) + \frac{1}{2}(x-x_0)^2
+f^{\prime\prime}(x_0)
+\]
+
+Special cases of general idea of Taylor approximation
+
+Simplifies if \(x_0\) is a minimum since then \(f^{\prime}(x_0) = 0\):
+
+\[
+f(x) \approx f(x_0) + \frac{1}{2}(x-x_0)^2 f^{\prime\prime}(x_0)
+\]
+
+Near a minimum, smooth functions look like parabolas
+
+Carries over to the multivariate case: \[
+f(\theta) \approx f(\theta_0) + (\theta-\theta_0) \cdot \nabla f(\theta_0) +
+\frac{1}{2}(\theta-\theta_0)^T \mathbf{H}(\theta_0) (\theta-\theta_0)
+\]
+
+\end{frame}
+
+\begin{frame}{Minimizing a Quadratic}
+
+If we know \[
+f(x) = ax^2 + bx + c
+\]
+
+we minimize exactly:
+
+\[
+\begin{eqnarray*}
+2ax^* + b & = & 0\\
+x^* & = & \frac{-b}{2a}
+\end{eqnarray*}
+\]
+
+If \[
+f(x) = \frac{1}{2}a (x-x_0)^2 + b(x-x_0) + c
+\]
+
+then \[
+x^* = x_0 - a^{-1}b
+\]
+
+\end{frame}
+
+\begin{frame}{Newton's Method}
+
+Taylor-expand for the value \emph{at the minimum} \(\theta^*\) \[
+    f(\theta^*) \approx f(\theta) + (\theta^*-\theta) \nabla f(\theta) +
+      \frac{1}{2}(\theta^*-\theta)^T \mathbf{H}(\theta) (\theta^*-\theta)
+    \]
+
+Take gradient, set to zero, solve for \(\theta^*\): \[
+    \begin{eqnarray*}
+    0 & = & \nabla f(\theta) + \mathbf{H}(\theta) (\theta^*-\theta) \\
+    \theta^* & = & \theta - {\left(\mathbf{H}(\theta)\right)}^{-1} \nabla f(\theta)
+    \end{eqnarray*}
+    \]
+
+Works \emph{exactly} if \(f\) is quadratic\\
+and \(\mathbf{H}^{-1}\) exists, etc.
+
+If \(f\) isn't quadratic, keep pretending it is until we get close to
+\(\theta^*\), when it will be nearly true
+
+\end{frame}
+
+\begin{frame}{Newton's Method: The Algorithm}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Start with guess for \(\theta\)
+\item
+  While ((not too tired) and (making adequate progress))
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  Find gradient \(\nabla f(\theta)\) and Hessian \(\mathbf{H}(\theta)\)
+\item
+  Set
+  \(\theta \leftarrow \theta - \mathbf{H}(\theta)^{-1} \nabla f(\theta)\)
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Return final \(\theta\) as approximation to \(\theta^*\)
+\end{enumerate}
+
+Like gradient descent, but with inverse Hessian giving the step-size
+
+``This is about how far you can go with that gradient''
+
+\#\# Curve-Fitting by Optimizing
+
+We have data \((x_1, y_1), (x_2, y_2), \ldots (x_n, y_n)\)
+
+We also have possible curves, \(r(x;\theta)\)
+
+e.g., \(r(x) = x \cdot \theta\)
+
+e.g., \(r(x) = \theta_1 x^{\theta_2}\)
+
+\#\# Curve-Fitting by Optimizing
+
+Least-squares curve fitting:
+
+\[
+    \hat{\theta} = \argmin_{\theta}{\frac{1}{n}\sum_{i=1}^n{(y_i - r(x_i;\theta))^2}}
+    \]
+
+``Robust'' curve fitting: \[
+    \hat{\theta} = \argmin_{\theta}{\frac{1}{n}\sum_{i=1}^{n}{\psi(y_i - r(x_i;\theta))}}
+    \]
+
+\end{frame}
+
+\begin{frame}[fragile]{Derivatives in R}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{f <-}\StringTok{ }\KeywordTok{expression}\NormalTok{(}\DecValTok{5}\OperatorTok{*}\NormalTok{x}\OperatorTok{^}\DecValTok{2}\OperatorTok{+}\DecValTok{3}\OperatorTok{*}\NormalTok{x}\OperatorTok{+}\DecValTok{1}\NormalTok{) ; }\KeywordTok{deriv}\NormalTok{(f,}\StringTok{"x"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## expression({
+##     .value <- 5 * x^2 + 3 * x + 1
+##     .grad <- array(0, c(length(.value), 1L), list(NULL, c("x")))
+##     .grad[, "x"] <- 5 * (2 * x) + 3
+##     attr(.value, "gradient") <- .grad
+##     .value
+## })
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x <-}\StringTok{ }\DecValTok{2}\OperatorTok{:}\DecValTok{4}\NormalTok{ ; }\KeywordTok{eval}\NormalTok{(}\KeywordTok{deriv}\NormalTok{(f,}\StringTok{"x"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 27 55 93
+## attr(,"gradient")
+##       x
+## [1,] 23
+## [2,] 33
+## [3,] 43
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}[fragile]{Integrate in R}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{g <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x) }\KeywordTok{eval}\NormalTok{(f)}
+\KeywordTok{integrate}\NormalTok{(g,}\DataTypeTok{lower =} \DecValTok{0}\NormalTok{,}\DataTypeTok{upper =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 21.33333 with absolute error < 2.4e-13
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{h <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x) }\KeywordTok{exp}\NormalTok{(}\KeywordTok{cos}\NormalTok{(x)}\OperatorTok{^}\DecValTok{2}\NormalTok{)}\OperatorTok{+}\KeywordTok{exp}\NormalTok{(}\KeywordTok{sin}\NormalTok{(x))}
+\KeywordTok{integrate}\NormalTok{(h,}\DecValTok{1}\NormalTok{,}\DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 11.99573 with absolute error < 0.00046
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}[fragile]{Optimization in R: optim()}
+
+\begin{verbatim}
+optim(par, fn, gr, method, control, hessian)
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{fn}: function to be minimized; mandatory
+\item
+  \texttt{par}: initial parameter guess; mandatory
+\item
+  \texttt{gr}: gradient function; only needed for some methods
+\item
+  \texttt{method}: defaults to a gradient-free method (``Nedler-Mead''),
+  could be BFGS (Newton-ish)
+\item
+  \texttt{control}: optional list of control settings
+\item
+  (maximum iterations, scaling, tolerance for convergence, etc.)
+\item
+  \texttt{hessian}: should the final Hessian be returned? default FALSE
+\end{itemize}
+
+Return contains the location (\texttt{\$par}) and the value
+(\texttt{\$val}) of the optimum, diagnostics, possibly
+\texttt{\$hessian}
+
+\end{frame}
+
+\begin{frame}[fragile]{Optimization in R: optim()}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gmp <-}\StringTok{ }\KeywordTok{read.table}\NormalTok{(}\StringTok{"../data/gmp.dat"}\NormalTok{)}
+\NormalTok{gmp}\OperatorTok{$}\NormalTok{pop <-}\StringTok{ }\NormalTok{gmp}\OperatorTok{$}\NormalTok{gmp}\OperatorTok{/}\NormalTok{gmp}\OperatorTok{$}\NormalTok{pcgmp}
+\KeywordTok{library}\NormalTok{(numDeriv)}
+\NormalTok{mse <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(theta) \{ }\KeywordTok{mean}\NormalTok{((gmp}\OperatorTok{$}\NormalTok{pcgmp }\OperatorTok{-}\StringTok{ }\NormalTok{theta[}\DecValTok{1}\NormalTok{]}\OperatorTok{*}\NormalTok{gmp}\OperatorTok{$}\NormalTok{pop}\OperatorTok{^}\NormalTok{theta[}\DecValTok{2}\NormalTok{])}\OperatorTok{^}\DecValTok{2}\NormalTok{) \}}
+\NormalTok{grad.mse <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(theta) \{ }\KeywordTok{grad}\NormalTok{(}\DataTypeTok{func=}\NormalTok{mse,}\DataTypeTok{x=}\NormalTok{theta) \}}
+\NormalTok{theta0=}\KeywordTok{c}\NormalTok{(}\DecValTok{5000}\NormalTok{,}\FloatTok{0.15}\NormalTok{)}
+\NormalTok{fit1 <-}\StringTok{ }\KeywordTok{optim}\NormalTok{(theta0,mse,grad.mse,}\DataTypeTok{method=}\StringTok{"BFGS"}\NormalTok{,}\DataTypeTok{hessian=}\OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\end{frame}
+
+\begin{frame}[fragile]{fit1: Newton-ish BFGS method}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit1[}\DecValTok{1}\OperatorTok{:}\DecValTok{3}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## $par
+## [1] 6493.2563738    0.1276921
+## 
+## $value
+## [1] 61853983
+## 
+## $counts
+## function gradient 
+##       63       11
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}[fragile]{fit1: Newton-ish BFGS method}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit1[}\DecValTok{4}\OperatorTok{:}\DecValTok{6}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## $convergence
+## [1] 0
+## 
+## $message
+## NULL
+## 
+## $hessian
+##             [,1]         [,2]
+## [1,] 5.25021e+01      4422070
+## [2,] 4.42207e+06 375729087977
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}[fragile]{nls}
+
+\texttt{optim} is a general-purpose optimizer
+
+So is \texttt{nlm} --- try them both if one doesn't work
+
+\texttt{nls} is for nonlinear least squares
+
+\end{frame}
+
+\begin{frame}[fragile]{nls}
+
+\begin{verbatim}
+nls(formula, data, start, control, [[many other options]])
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{formula}: Mathematical expression with response variable,
+  predictor variable(s), and unknown parameter(s)
+\item
+  \texttt{data}: Data frame with variable names matching
+  \texttt{formula}
+\item
+  \texttt{start}: Guess at parameters (optional)
+\item
+  \texttt{control}: Like with \texttt{optim} (optional)
+\end{itemize}
+
+Returns an \texttt{nls} object, with fitted values, prediction methods,
+etc.
+
+The default optimization is a version of Newton's method
+
+\end{frame}
+
+\begin{frame}[fragile]{fit2: Fitting the Same Model with nls()}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit2 <-}\StringTok{ }\KeywordTok{nls}\NormalTok{(pcgmp}\OperatorTok{~}\NormalTok{y0}\OperatorTok{*}\NormalTok{pop}\OperatorTok{^}\NormalTok{a,}\DataTypeTok{data=}\NormalTok{gmp,}\DataTypeTok{start=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{y0=}\DecValTok{5000}\NormalTok{,}\DataTypeTok{a=}\FloatTok{0.1}\NormalTok{))}
+\KeywordTok{summary}\NormalTok{(fit2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Formula: pcgmp ~ y0 * pop^a
+## 
+## Parameters:
+##     Estimate Std. Error t value Pr(>|t|)    
+## y0 6.494e+03  8.565e+02   7.582 2.87e-13 ***
+## a  1.277e-01  1.012e-02  12.612  < 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 7886 on 364 degrees of freedom
+## 
+## Number of iterations to convergence: 5 
+## Achieved convergence tolerance: 1.751e-07
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}[fragile]{fit2: Fitting the Same Model with nls()}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(pcgmp}\OperatorTok{~}\NormalTok{pop,}\DataTypeTok{data=}\NormalTok{gmp)}
+\NormalTok{pop.order <-}\StringTok{ }\KeywordTok{order}\NormalTok{(gmp}\OperatorTok{$}\NormalTok{pop)}
+\KeywordTok{lines}\NormalTok{(gmp}\OperatorTok{$}\NormalTok{pop[pop.order],}\KeywordTok{fitted}\NormalTok{(fit2)[pop.order])}
+\KeywordTok{curve}\NormalTok{(fit1}\OperatorTok{$}\NormalTok{par[}\DecValTok{1}\NormalTok{]}\OperatorTok{*}\NormalTok{x}\OperatorTok{^}\NormalTok{fit1}\OperatorTok{$}\NormalTok{par[}\DecValTok{2}\NormalTok{],}\DataTypeTok{add=}\OtherTok{TRUE}\NormalTok{,}\DataTypeTok{lty=}\StringTok{"dashed"}\NormalTok{,}\DataTypeTok{col=}\StringTok{"blue"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Section10_files/figure-beamer/unnamed-chunk-7-1.pdf}
+
+\end{frame}
+
+\begin{frame}[fragile]{Maximize log-likelihood}
+
+Imagine that we have a sample that was drawn from a normal distribution
+with unknown mean, \(\mu\), and variance, \(\sigma^2\). The objective is
+to estimate these parameters. The normal log-likelihood function is
+given by
+
+\[ l = −.5 n ln (2\pi)−.5 n ln(\sigma^2)− \frac{1}{2\sigma^2} \sum_{i} (y_i -\mu)^2 \]
+We can program this function in the following way:
+
+\texttt{r\ \ \ normal.lik\textless{}-function(theta,y)\ \{\ \ \ \ mu\textless{}-theta{[}1{]}\ \ \ sigma2\textless{}-theta{[}2{]}\ \ \ n\ \textless{}-\ length(y)\ \ \ logl\ \textless{}-\ -.5*n*log(2*pi)\ -.5*n*log(sigma2)\ -\ (1/(2*sigma2))*sum((y-mu)**2)\ \ \ \ return\ (-logl)\ \ \ \}}
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+Once the log-likelihood function has been declared, then the optim
+command can be invoked. The minimal specification of this command is
+
+\texttt{optim(starting\ values,\ log-likelihood,\ data)}
+
+Given a vector of data, y, the parameters of the normal distrib- ution
+can be estimated using
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{y <-}\StringTok{ }\KeywordTok{rnorm}\NormalTok{(}\DecValTok{1000}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{5}\NormalTok{);}
+\KeywordTok{optim}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{),normal.lik,}\DataTypeTok{y=}\NormalTok{y,}\DataTypeTok{method=}\StringTok{"BFGS"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## $par
+## [1]  1.00050 24.42953
+## 
+## $value
+## [1] 3016.806
+## 
+## $counts
+## function gradient 
+##       40       25 
+## 
+## $convergence
+## [1] 0
+## 
+## $message
+## NULL
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}[fragile]{Summary}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Trade-offs: complexity of iteration vs.~number of iterations
+  vs.~precision of approximation
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  Gradient descent: less complex iterations, more guarantees, less
+  adaptive
+\item
+  Newton: more complex iterations, but few of them for good functions,
+  more adaptive, less robust
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Start with pre-built code like \texttt{optim} or \texttt{nls},
+  implement your own as needed
+\end{enumerate}
+
+\end{frame}
+
+\end{document}
