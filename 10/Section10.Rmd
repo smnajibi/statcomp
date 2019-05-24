@@ -1,0 +1,537 @@
+---
+title: "Numerical Optimization"
+author: "S. Morteza Najibi, Shiraz University"
+date: "May 25, 2019"
+#output: beamer_presentation
+#theme: "SDATbeamer"
+fontsize: 8pt
+output: ioslides_presentation
+#output: md_document
+---
+  
+  
+  ## Agenda
+  
+  
+- Basics of optimization
+- Gradient descent
+- Newton's method
+- Curve-fitting
+- R: `optim`, `nls`
+
+
+
+## Examples of Optimization Problems
+
+
+- Minimize mean-squared error of regression surface 
+- Maximize likelihood of distribution 
+- Maximize output of tanks from given supplies and factories;
+- Maximize return of portfolio for given volatility 
+- Minimize cost of airline flight schedule 
+
+
+
+## Optimization Problems
+
+
+Given an **objective function** $f: \mathcal{D} \mapsto R$, find
+
+\[
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+\theta^* = \argmin_{\theta}{f(\theta)}
+\]
+
+Basics: maximizing $f$ is minimizing $-f$:
+
+\[
+\argmax_{\theta}{f(\theta)}= \argmin_{\theta}{-f(\theta)}
+\]
+
+If $h$ is strictly increasing (e.g., $\log$), then
+
+\[
+\argmin_{\theta}{f(\theta)} = \argmin_{\theta}{h(f(\theta))}
+\]
+
+
+
+## Considerations
+
+
+- Approximation: How close can we get to $\theta^*$, and/or $f(\theta^*)$?
+
+- Time complexity: How many computer steps does that take?  
+<small>Varies with precision of approximation, niceness of $f$, size of
+$\mathcal{D}$, size of data, method...</small>
+
+- Most optimization algorithms use **successive approximation**, so
+distinguish number of iterations from cost of each iteration
+
+
+
+## You remember calculus, right?
+
+
+Suppose $x$ is one dimensional and $f$ is smooth. If $x^*$ is an **interior** minimum / maximum / extremum point
+
+\[
+{\left. \frac{df}{dx} \right|}_{x=x^*} = 0
+\]
+
+If $x^*$ a minimum,
+\[
+{\left. \frac{d^2f}{dx^2}\right|}_{x=x^*} > 0
+\]
+
+
+
+----
+
+This all carries over to multiple dimensions:
+
+At an **interior extremum**,
+\[
+\nabla f(\theta^*) = 0
+\]
+
+At an **interior minimum**,
+\[
+\nabla^2 f(\theta^*) \geq 0
+\]
+meaning for any vector $v$,
+\[
+v^T \nabla^2 f(\theta^*) v \geq 0
+\]
+$\nabla^2 f =$ the **Hessian**, $\mathbf{H}$
+
+
+$\theta$ might just be a **local** minimum
+
+
+
+## Gradients and Changes to f
+
+\[
+f^{\prime}(x_0)  =  {\left. \frac{df}{dx}\right|}_{x=x_0} = \lim_{x\rightarrow x_0}{\frac{f(x)-f(x_0)}{x-x_0}} \]
+
+\[    f(x)  \approx f(x_0) +(x-x_0)f^{\prime}(x_0)
+\]
+
+Locally, the function looks linear; to minimize a linear function, move down the slope
+
+Multivariate version:
+\[
+f(\theta) \approx f(\theta_0) + (\theta-\theta_0) \cdot \nabla f(\theta_0)
+\]
+
+$\nabla f(\theta_0)$ points in the direction of fastest ascent at $\theta_0$
+
+
+
+## Gradient Descent
+
+
+1. Start with initial guess for $\theta$, step-size $\eta$
+2. While ((not too tired) and (making adequate progress))
+- Find gradient $\nabla f(\theta)$
+- Set $\theta \leftarrow \theta - \eta \nabla f(\theta)$
+3. Return final $\theta$ as approximate $\theta^*$
+
+Variations: adaptively adjust $\eta$ to make sure of improvement or search along the gradient direction for minimum
+
+<!--
+
+## Pros and Cons of Gradient Descent
+
+
+Pro:
+
+- Moves in direction of greatest immediate improvement
+- If $\eta$ is small enough, gets to a local minimum eventually, and then stops
+
+Cons:
+
+- "small enough" $\eta$ can be really, really small
+- Slowness or zig-zagging if components of $\nabla f$ are very different sizes
+
+How much work do we need?
+
+
+## Scaling
+
+
+Big-$O$ notation:
+
+\[
+h(x) = O(g(x))
+\]
+
+means
+
+\[
+\lim_{x\rightarrow\infty}{\frac{h(x)}{g(x)}} = c
+\]
+
+for some $c \neq 0$  
+
+<small>e.g., $x^2 - 5000x + 123456778 = O(x^2)$</small>
+
+<small>e.g., $e^{x}/(1+e^{x}) = O(1)$</small>
+
+Useful to look at over-all scaling, hiding details
+
+Also done when the limit is $x\rightarrow 0$
+
+
+
+## How Much Work is Gradient Descent?
+
+
+
+Pro:
+
+- For nice $f$, $f(\theta) \leq f(\theta^*)+\epsilon$ in $O(\epsilon^{-2})$ iterations
++ <small>For _very_ nice $f$, only $O(\log{\epsilon^{-1}})$
+iterations</small>
+- To get $\nabla f(\theta)$, take $p$ derivatives, $\therefore$ each iteration costs $O(p)$
+
+Con:
+
+- Taking derivatives can slow down as data grows --- each iteration might really be $O(np)$
+
+-->
+
+## Taylor Series
+
+
+What if we do a quadratic approximation to $f$?
+
+\[
+f(x) \approx f(x_0) + (x-x_0)f^{\prime}(x_0) + \frac{1}{2}(x-x_0)^2
+f^{\prime\prime}(x_0)
+\]
+
+
+<small>Special cases of general idea of Taylor approximation</small>
+
+Simplifies if $x_0$ is a minimum since then $f^{\prime}(x_0) = 0$:
+
+\[
+f(x) \approx f(x_0) + \frac{1}{2}(x-x_0)^2 f^{\prime\prime}(x_0)
+\]
+
+Near a minimum, smooth functions look like parabolas
+
+
+Carries over to the multivariate case:
+\[
+f(\theta) \approx f(\theta_0) + (\theta-\theta_0) \cdot \nabla f(\theta_0) +
+\frac{1}{2}(\theta-\theta_0)^T \mathbf{H}(\theta_0) (\theta-\theta_0)
+\]
+
+
+## Minimizing a Quadratic
+
+
+If we know
+\[
+f(x) = ax^2 + bx + c
+\]
+
+we minimize exactly:
+
+\[
+\begin{eqnarray*}
+2ax^* + b & = & 0\\
+x^* & = & \frac{-b}{2a}
+\end{eqnarray*}
+\]
+
+If
+\[
+f(x) = \frac{1}{2}a (x-x_0)^2 + b(x-x_0) + c
+\]
+
+then
+\[
+x^* = x_0 - a^{-1}b
+\]
+
+
+
+
+## Newton's Method
+
+
+
+
+Taylor-expand for the value *at the minimum* $\theta^*$
+  \[
+    f(\theta^*) \approx f(\theta) + (\theta^*-\theta) \nabla f(\theta) +
+      \frac{1}{2}(\theta^*-\theta)^T \mathbf{H}(\theta) (\theta^*-\theta)
+    \]
+
+Take gradient, set to zero, solve for $\theta^*$:
+  \[
+    \begin{eqnarray*}
+    0 & = & \nabla f(\theta) + \mathbf{H}(\theta) (\theta^*-\theta) \\
+    \theta^* & = & \theta - {\left(\mathbf{H}(\theta)\right)}^{-1} \nabla f(\theta)
+    \end{eqnarray*}
+    \]
+
+Works *exactly* if $f$ is quadratic  
+<small>and $\mathbf{H}^{-1}$ exists, etc.</small>
+  
+  If $f$ isn't quadratic, keep pretending it is until we get close to
+$\theta^*$, when it will be nearly true
+
+
+
+## Newton's Method: The Algorithm
+
+
+1. Start with guess for $\theta$
+  2. While ((not too tired) and (making adequate progress))
+- Find gradient $\nabla f(\theta)$ and Hessian $\mathbf{H}(\theta)$
+  - Set $\theta \leftarrow \theta - \mathbf{H}(\theta)^{-1} \nabla f(\theta)$
+  
+  3. Return final $\theta$ as approximation to $\theta^*$
+  
+  Like gradient descent, but with inverse Hessian giving the step-size
+
+<small>"This is about how far you can go with that gradient"</small>
+  
+  <!--
+  
+  ## Advantages and Disadvantages of Newton's Method
+  
+  Pros:
+  
+  - Step-sizes chosen adaptively through 2nd derivatives, much harder to get zig-zagging, over-shooting, etc.
+- Also guaranteed to need $O(\epsilon^{-2})$ steps to get within $\epsilon$ of optimum
+- Only $O(\log\log{\epsilon^{-1}})$ for very nice functions
+- Typically many fewer iterations than gradient descent
+
+
+
+## Advantages and Disadvantages of Newton's Method
+
+
+Cons:
+  
+  - Hopeless if $\mathbf{H}$ doesn't exist or isn't invertible
+- Need to take $O(p^2)$ second derivatives *plus* $p$ first derivatives
+- Need to solve $\mathbf{H} \theta_{\mathrm{new}} = \mathbf{H} \theta_{\mathrm{old}} - \nabla f(\theta_{\mathrm{old}})$ for $\theta_{\mathrm{new}}$
+  + <small>inverting $\mathbf{H}$ is $O(p^3)$, but cleverness gives
+$O(p^2)$ for solving for $\theta_{\mathrm{new}}$</small>
+  
+  
+  ## Getting Around the Hessian
+  
+  
+  Want to use the Hessian to improve convergence
+
+Don't want to have to keep computing the Hessian at each step
+
+Approaches:
+
+- Use knowledge of the system to get some approximation to the Hessian, use that instead of taking derivatives ("Fisher scoring")
+- Use only diagonal entries ($p$ unmixed 2nd derivatives)
+- Use $\mathbf{H}(\theta)$ at initial guess, hope $\mathbf{H}$ changes
+*very* slowly with $\theta$
+- Re-compute $\mathbf{H}(\theta)$ every $k$ steps, $k > 1$
+- Fast, approximate updates to the Hessian at each step (BFGS)
+
+
+## Other Methods
+
+
+- Lots!
+- See bonus slides at end for for "Nedler-Mead", a.k.a. "the simplex method", which doesn't need any derivatives
+- See bonus slides for the meta-method "coordinate descent"
+
+-->
+  
+  ## Curve-Fitting by Optimizing
+  
+  
+  We have data $(x_1, y_1), (x_2, y_2), \ldots (x_n, y_n)$
+  
+  We also have possible curves, $r(x;\theta)$
+  
+  e.g., $r(x) = x \cdot \theta$
+  
+  e.g., $r(x) = \theta_1 x^{\theta_2}$
+  
+  <!--
+  e.g., $r(x) = \sum_{j=1}^{q}{\theta_j b_j(x)}$ for fixed "basis" functions
+$b_j$
+  -->
+  
+  
+  
+  ## Curve-Fitting by Optimizing
+  
+  
+  Least-squares curve fitting:
+  
+  \[
+    \hat{\theta} = \argmin_{\theta}{\frac{1}{n}\sum_{i=1}^n{(y_i - r(x_i;\theta))^2}}
+    \]
+
+
+"Robust" curve fitting: 
+  \[
+    \hat{\theta} = \argmin_{\theta}{\frac{1}{n}\sum_{i=1}^{n}{\psi(y_i - r(x_i;\theta))}}
+    \]
+
+## Derivatives in R
+
+```{r}
+f <- expression(5*x^2+3*x+1) ; deriv(f,"x")
+x <- 2:4 ; eval(deriv(f,"x"))
+```
+
+## Integrate in R
+
+```{r}
+g <- function(x) eval(f)
+integrate(g,lower = 0,upper = 2)
+h <- function(x) exp(cos(x)^2)+exp(sin(x))
+integrate(h,1,5)
+```
+
+## Optimization in R: optim()
+
+
+```
+optim(par, fn, gr, method, control, hessian)
+```
+
+- `fn`: function to be minimized; mandatory
+- `par`: initial parameter guess; mandatory
+- `gr`: gradient function; only needed for some methods
+- `method`: defaults to a gradient-free method (``Nedler-Mead''), could be BFGS (Newton-ish)
+- `control`: optional list of control settings
++ <small>(maximum iterations, scaling, tolerance for convergence, etc.)</small>
+  - `hessian`: should the final Hessian be returned? default FALSE
+
+Return contains the location (`$par`) and the value (`$val`) of the optimum, diagnostics, possibly `$hessian`
+
+
+## Optimization in R: optim()
+
+
+```{r}
+gmp <- read.table("../data/gmp.dat")
+gmp$pop <- gmp$gmp/gmp$pcgmp
+library(numDeriv)
+mse <- function(theta) { mean((gmp$pcgmp - theta[1]*gmp$pop^theta[2])^2) }
+grad.mse <- function(theta) { grad(func=mse,x=theta) }
+theta0=c(5000,0.15)
+fit1 <- optim(theta0,mse,grad.mse,method="BFGS",hessian=TRUE)
+```
+
+
+## fit1: Newton-ish BFGS method
+
+
+```{r}
+fit1[1:3]
+```
+
+
+## fit1: Newton-ish BFGS method
+
+
+```{r}
+fit1[4:6]
+```
+
+
+
+## nls
+
+
+`optim` is a general-purpose optimizer
+
+So is `nlm` --- try them both if one doesn't work
+
+`nls` is for nonlinear least squares
+
+
+
+## nls
+
+
+```
+nls(formula, data, start, control, [[many other options]])
+```
+
+- `formula`: Mathematical expression with response variable, predictor variable(s), and unknown parameter(s)
+- `data`: Data frame with variable names matching `formula`
+- `start`: Guess at parameters (optional)
+- `control`: Like with `optim` (optional)
+
+Returns an `nls` object, with fitted values, prediction methods, etc.
+
+The default optimization is a version of Newton's method
+
+
+
+## fit2: Fitting the Same Model with nls()
+
+
+```{r}
+fit2 <- nls(pcgmp~y0*pop^a,data=gmp,start=list(y0=5000,a=0.1))
+summary(fit2)
+```
+
+
+## fit2: Fitting the Same Model with nls()
+
+
+```{r}
+plot(pcgmp~pop,data=gmp)
+pop.order <- order(gmp$pop)
+lines(gmp$pop[pop.order],fitted(fit2)[pop.order])
+curve(fit1$par[1]*x^fit1$par[2],add=TRUE,lty="dashed",col="blue")
+```
+
+## Maximize log-likelihood
+
+Imagine that we have a sample that was drawn from a normal distribution with unknown mean, $\mu$, and variance, $\sigma^2$. The objective is to estimate these parameters. The normal log-likelihood function is given by 
+
+$$ l = −.5 n ln (2\pi)−.5 n ln(\sigma^2)− \frac{1}{2\sigma^2} \sum_{i} (y_i -\mu)^2 $$
+  We can program this function in the following way:
+  
+  ```{r}
+normal.lik<-function(theta,y) { 
+  mu<-theta[1]
+  sigma2<-theta[2]
+  n <- length(y)
+  logl <- -.5*n*log(2*pi) -.5*n*log(sigma2) - (1/(2*sigma2))*sum((y-mu)**2) 
+  return (-logl)
+}
+```
+
+----
+  
+  Once the log-likelihood function has been declared, then the optim command can be invoked. The minimal specification of this command is
+
+`optim(starting values, log-likelihood, data)`
+
+Given a vector of data, y, the parameters of the normal distrib- ution can be estimated using
+```{r,warning=FALSE}
+y <- rnorm(1000,1,5);
+optim(c(0,1),normal.lik,y=y,method="BFGS")
+```
+## Summary
+
+
+1. Trade-offs: complexity of iteration vs. number of iterations vs. precision of approximation
++ Gradient descent: less complex iterations, more guarantees, less adaptive
++ Newton: more complex iterations, but few of them for good functions, more adaptive, less robust
+2. Start with pre-built code like `optim` or `nls`, implement your own as needed
