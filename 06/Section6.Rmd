@@ -1,0 +1,515 @@
+
+---
+title: "Exploratory Data Analysis in R"
+author: "S. Morteza Najibi, Shiraz University"
+date: "April 22, 2019"
+#output: beamer_presentation
+#theme: "SDATbeamer"
+fontsize: 8pt
+output: ioslides_presentation
+#output: md_document
+---
+
+
+## Graphics in R
+
+  - Exploratory Data Analysis (EDA)  
+  - Powerful environment for visualizing scientific data
+  - Fully programmable
+  - An example of Exploratory Data Analysis will be performed with the Iris data set.  
+
+##  Important high-level plotting functions
+
+  - `plot`: generic x-y plotting
+  - `barplot`: bar plots
+  - `boxplot`: box-and-whisker plot
+  - `hist`: histograms
+  - `pie`: pie charts
+  - `dotchart`: cleveland dot plots
+  - `image`, `heatmap`, `contour`, `persp`: functions to generate image-like plots
+  - `qqnorm`, `qqline`, `qqplot`: distribution comparison plots
+  - `pairs`, `coplot`, `matplot`: display of multivariant data Help on these functions
+
+## Iris Data
+
+The iris data set is available at the [UCI Machine Learning Repository](http://archive.ics.uci.edu/ml/).
+
+The data set was created by statistician Douglas Fisher.  The data consists of 3 classes of flower types:
+
+  - _setosa_
+  - _virginica_
+  - _versicolor_
+
+## The Iris Attributes
+The data has 4 attributes:
+
+  - sepal width
+  - sepal length
+  - petal width
+  - petal length
+
+## Load Data
+
+The data needs to be loaded into R.
+
+```{r}
+head(iris)
+names(iris)
+```
+
+## Summary Statistics
+
+The summary function can be used to assess the statistical properties of each attribute.
+
+```{r}
+summary(iris[,-5])
+```
+other statistics may be calculated as described in the introduction to R examples.
+
+# Visualizations
+
+## Plot
+
+- plot x versus y
+````{r}
+plot(iris[,1], iris[,2],xlab=names(iris)[1],ylab=names(iris)[2],col=2)
+```
+
+## Some more techniques in `plot`
+
+```{r}
+set.seed(100)
+y <- matrix(runif(30), ncol=3, dimnames=list(letters[1:10], LETTERS[1:3]))
+plot(y[,1], y[,2], pch=20, col="red", main="Symbols and Labels")
+text(y[,1]+0.03, y[,2], rownames(y))
+```
+
+## Add a regression line
+
+```{r}
+plot(y[,1], y[,2])
+myline <- lm(y[,2]~y[,1]);
+abline(myline, lwd=2)
+````
+
+## Add a mathematical expression to a plot
+```{r}
+plot(y[,1], y[,2])
+text(y[1,1], y[1,2]+.2,expression(sum(frac(1,sqrt(x^2*pi)))), cex=1.3)
+````
+
+## Histograms
+
+- Set the number of breaks to 9, therefore, there will be 10 equal sized bins.
+
+```{r hist1, out.height='180px'}
+par(mfrow=c(1,2))
+hist(iris$Petal.Width, breaks=9)
+hist(iris$Petal.Width, breaks=19)
+```
+
+## some notes
+##### Note, the number of breaks can be a single number, vector, function to evaluate points or character string.  
+
+```{r hist3, out.height='150px'}
+b <- seq(min(iris$Petal.Width), max(iris$Petal.Width),
+            length=11)
+hist(iris$Petal.Width, breaks=b, col="blue", xlab="Petal Width",
+     main="Histogram of Petal Width")
+```
+
+## Density Plots
+
+Density plots can be viewed as smoothed versions of a histogram.  We can estimate the density using R's `density` function
+
+```{r dens1}
+dens.pw = density(iris$Petal.Width)
+plot(dens.pw, ylab = "f(width)", xlab = "width", main= "Density of Petal Width")
+```
+
+## Density plot cont'd
+Let's also look at the density function of `petal.length` for each of the three classes of irises.
+
+```{r dens2}
+density.setosa = density(iris$Petal.Length[iris$Species == "setosa"])
+density.versicolor = density(iris$Petal.Length[iris$Species == "versicolor"])
+density.virginica = density(iris$Petal.Length[iris$Species == "virginica"])
+```
+
+## Density plot cont'd
+
+```{r dens3}
+plot(density.setosa, ylab="f(length)", xlab="length (cm)", main="Density plot of Petal
+     Legnths", xlim = c(0,8), lwd=4, col="red")
+lines(density.versicolor, col="blue", lwd=4)
+lines(density.virginica, col="green", lwd=4)
+legend(4, 2.5, c("Setosa", "Versicolor", "Virginica"), lwd=rep(4,3),
+       col=c("red", "blue", "green"))
+```
+
+## Empirical Cumulative Distribution Functions
+
+The cumulative area under the density function is the cumulative distribution function.  Looking at this function using a sample of points gives use the empirical cumulative distribution function (ECDF).   Let's start by calculating the cumulative areas
+
+```{r cdf1, eval=FALSE}
+ecdf.setosa = ecdf(iris$Petal.Length[iris$Species == "setosa"])
+ecdf.versicolor = ecdf(iris$Petal.Length[iris$Species == "versicolor"])
+ecdf.virginica = ecdf(iris$Petal.Length[iris$Species == "virginica"])
+```
+The functions may also be plotted (notice the step function patterns)
+```{r cdf2, eval=FALSE}
+plot(ecdf.setosa, ylab = "F(length)", xlab = "length (cm)", col.h = "red",
+     main = "ECDF for Petal Lengths",
+      verticals = T, col.v = "red", do.p = F, lwd = 4, xlim = c(0, 8))
+lines(ecdf.versicolor, col.h = "blue", col.v = "blue", verticals = T, lwd = 4,
+        do.p = F)
+lines(ecdf.virginica, col.h = "green", col.v = "green", verticals = T, lwd = 4,
+        do.p = F)
+```
+
+----
+
+```{r cdf3, eval=TRUE,echo=FALSE, out.height='150px'}
+ecdf.setosa = ecdf(iris$Petal.Length[iris$Species == "setosa"])
+ecdf.versicolor = ecdf(iris$Petal.Length[iris$Species == "versicolor"])
+ecdf.virginica = ecdf(iris$Petal.Length[iris$Species == "virginica"])
+plot(ecdf.setosa, ylab = "F(length)", xlab = "length (cm)", col.h = "red",
+     main = "ECDF for Petal Lengths",
+      verticals = T, col.v = "red", do.p = F, lwd = 4, xlim = c(0, 8))
+lines(ecdf.versicolor, col.h = "blue", col.v = "blue", verticals = T, lwd = 4,
+        do.p = F)
+lines(ecdf.virginica, col.h = "green", col.v = "green", verticals = T, lwd = 4,
+        do.p = F)
+```
+
+## Quantile Plots
+
+The inverse of the ECDF is the quantile function.  
+
+```{r quantile}
+ps = seq(0,1,length=25)
+quantile.setosa = quantile(iris$Petal.Length[iris$Species == "setosa"], probs=ps)
+quantile.setosa
+```
+
+----
+
+```{r quantile2,eval=FALSE}
+quantile.versicolor = quantile(iris$Petal.Length
+                               [iris$Species == "versicolor"],probs=ps)
+quantile.virginica = quantile(iris$Petal.Length
+                              [iris$Species == "virginica"], probs=ps)
+plot(ps, quantile.setosa, xlab = "p", ylab = "length (cm)",
+     main = "Quantiles for Petal Length",
+     type="l", lwd = 4, col="red", ylim=c(0,8))
+lines(ps, quantile.versicolor, col = "blue", lwd = 4)
+lines(ps, quantile.virginica, col = "green", lwd = 4)
+```
+
+##
+
+
+```{r,echo=FALSE}
+quantile.versicolor = quantile(iris$Petal.Length[iris$Species == "versicolor"],
+                               probs=ps)
+quantile.virginica = quantile(iris$Petal.Length[iris$Species == "virginica"],
+                              probs=ps)
+
+plot(ps, quantile.setosa, xlab = "p", ylab = "length (cm)", main = "Quantiles for Petal Length",
+     type="l", lwd = 4, col="red", ylim=c(0,8))
+lines(ps, quantile.versicolor, col = "blue", lwd = 4)
+lines(ps, quantile.virginica, col = "green", lwd = 4)
+```
+
+## check Normality plot
+
+```{r}
+hist(iris$Sepal.Length, probability=TRUE, breaks=15, col="light blue")
+rug(jitter(iris$Sepal.Length, 5))
+points(density(iris$Sepal.Length), type='l', lwd=3, col='red')
+f <- function(t) {
+  dnorm(t, mean=mean(iris$Sepal.Length), sd=sd(iris$Sepal.Length) )
+}
+curve(f, add=T, col="blue", lwd=3, lty=2)
+```
+
+## Q-Q plot
+A q-q plot is a plot of the quantiles of the first data set against the quantiles of the second data set.
+```{r}
+x <- iris$Sepal.Length
+qqnorm(x)
+qqline(x, col="red", lwd=3)
+````
+
+## Some more examples
+
+```{r}
+par(mfrow=c(1,2))
+x <- rnorm(100)
+y <- rnorm(100)^2
+qqnorm(x, main="Gaussian variable");qqline(x, col="blue", lwd=3)
+qqnorm(y, main="Non gaussian variable");qqline(y, col="red", lwd=3)
+
+```
+
+## Box Plots
+
+Box plots are used to compactly show many pieces of information about a variables distribution including some summary statistics.  
+
+A box plot of each attribute of the iris data set
+
+```{r boxplot1}
+boxplot(iris[,-1])
+```
+
+----
+
+A box plot may also be used for one attribute `petal.length` and show how it varies with the class `Species`
+
+```{r boxplot2}
+boxplot(iris$Petal.Length ~ iris$Species)
+```
+
+## Scatter Plots
+
+Scatter plots are used to plot two variables against each other (or 3 in the case of 3D plots).
+
+```{r scatter1}
+plot(iris$Petal.Length, iris$Sepal.Width)
+```
+
+## Pairwise Plots
+
+For data sets with only a few attributes, all the pairwise scatter plots may be constructed.
+
+```{r scatter2}
+pairs(as.matrix(iris[,-5]), pch=21, bg=c("red", "blue", "green")[(iris$Species)])
+```
+
+
+
+## Color Selection Utilities
+
+Default color palette and how to change it
+
+```{r}
+palette()
+palette(rainbow(5, start=0.1, end=0.2))
+palette()
+```
+
+----
+
+The gray function allows to select any type of gray shades by providing values from 0 to 1
+
+````{r, out.height='150px'}
+pie(1:5,col=gray(seq(0.1, 1, by= 0.2)))
+````
+
+## Color gradients with colorpanel function from gplots library
+
+````{r, out.height='100px'}
+library(gplots,warn.conflicts = F)
+par(mfrow=c(1,2))
+pie(1:50, col=colorpanel(50,"red","black","green"))
+pie(1:50, col=rainbow(50))
+````
+
+
+
+## Arranging Plots with Variable Width
+
+The layout function allows to divide the plotting device into variable numbers of rows and columns with the column-widths and the row-heights specified in the respective
+arguments.
+
+```{r}
+nf <- layout(matrix(c(2,1,3,3), 2, 2, byrow=TRUE), c(3,7), c(5,3))
+layout.show(nf)
+```
+
+----
+
+```{r,out.height='150px'}
+x <- rnorm(100) ; y <- rnorm(100)
+layout(matrix(c(2,1,3,3), 2, 2, byrow=TRUE), c(3,7), c(5,4))
+plot(x,y)
+boxplot(y,horizontal = FALSE,col=2)
+hist(x,col=4)
+````
+
+## Margine plots
+
+````{r,eval=FALSE}
+data(cars)
+layout( matrix( c(2,1,0,3), 2, 2, byrow=T ),
+c(1,6), c(4,1))
+par(mar=c(1,1,5,2)); plot(cars$dist ~ cars$speed,xlab='', ylab='',las = 1)
+rug(side=1, jitter(cars$speed, 5) );rug(side=2, jitter(cars$dist, 20) );
+title(main = "cars data")
+par(mar=c(1,2,5,1))
+boxplot(cars$dist, axes=F); title(ylab='Stopping distance (ft)', line=0)
+par(mar=c(5,1,1,2))
+boxplot(cars$speed, horizontal=T, axes=F); title(xlab='Speed (mph)', line=1)
+```
+
+----
+
+````{r,eval=TRUE, echo=FALSE, out.height='150px'}
+data(cars)
+layout( matrix( c(2,1,0,3), 2, 2, byrow=T ),
+c(1,6), c(4,2))
+par(mar=c(1,1,5,2)); plot(cars$dist ~ cars$speed,xlab='', ylab='',las = 1)
+rug(side=1, jitter(cars$speed, 5) );rug(side=2, jitter(cars$dist, 20) );
+title(main = "cars data")
+par(mar=c(1,2,5,1))
+boxplot(cars$dist, axes=F); title(ylab='Stopping distance (ft)', line=0)
+par(mar=c(5,1,1,2))
+boxplot(cars$speed, horizontal=T, axes=F); title(xlab='Speed (mph)', line=1)
+```
+
+
+## Exercise: Bar Plots, Pie plot,
+
+  - Consider the same approach in this slides for `barplot`
+
+## Saving Graphics to Files
+
+After the pdf() command all graphs are redirected to file test.pdf. Works for all common formats similarly:
+jpeg, png, ps, tiff, ...
+
+```{r,eval=FALSE}
+pdf("test.pdf"); plot(1:10, 1:10); dev.off()
+```
+
+
+# 3 Dimesional functions and their plots
+
+## `persp` 3d plot
+
+```{r,out.height='100px'}
+x <- seq(-10, 10, length= 30)
+y <- x
+f <- function(x, y) { r <- sqrt(x^2+y^2); 10 * sin(r)/r }
+z <- outer(x, y, f)
+persp(x, y, z, theta = 30, phi = 30, expand = 0.5, col = "lightblue")
+```
+
+## Countour Plots
+
+A contour plot is a graphical technique for representing a 3-dimensional surface by plotting constant z slices, called contours, on a 2-dimensional format.
+```{r,out.height='100px'}
+contour(x,y,z) # or contour(z)
+```
+
+## 2D Density
+
+Density estimation is available for higher dimensional data.  Use the `MASS` package.
+
+```{r contour}
+library(MASS)
+petal.dens = kde2d(iris$Petal.Length, iris$Petal.Width)
+contour(petal.dens)
+```
+
+----
+
+The plot may aslo be viewed as an image
+
+```{r contour2}
+image(petal.dens)
+```
+
+
+# lattice Grapphics
+
+## What is lattice?
+- High-level graphics system
+- Implements Trellis graphics system from S-Plus Simplifies high-level plotting tasks: arranging complex graphical features
+- Syntax similar to R’s base graphics
+
+## Scatter Plot Sample
+
+```{r,out.height='100px'}
+library(lattice)
+xyplot(1:8 ~ 1:8 | rep(LETTERS[1:4], each=2), as.table=TRUE)
+```
+
+## Line Plot Sample
+
+```{r}
+parallelplot(~iris[1:4] | Species, iris, horizontal.axis = FALSE,
+             layout = c(1, 3, 1))
+```
+
+
+# ggplot2 package (a superfull package in graphic )
+## ggplot2
+
+  * What is ggplot2?
+      + High-level graphics system
+      + Streamlines many graphics workflows for complex plots
+      + Simpler qplot function provides many shortcuts
+
+  * ggplot function accepts two arguments
+      + Data set to be plotted
+      + `Aesthetic` mappings provided by `aes` function
+      + Additional parameters such as geometric objects (e.g. points, lines, bars) are passed on by appending them with + as separator.
+
+## qplot function
+
+qplot syntax is similar to R’s basic plot function Arguments:
+
+- x: x-coordinates (e.g. col1)
+- y: y-coordinates (e.g. col2)
+- data: data frame with corresponding column names xlim, ylim: e.g. xlim=c(0,10)
+- log: e.g. log="x" or log="xy"
+- main: main title; see ?plotmath for mathematical formula xlab, ylab: labels for the x- and y-axes
+- color, shape, size
+- ...: many arguments accepted by plot function
+
+----
+
+Create sample data
+```{r}
+library(ggplot2,quietly = T)
+#cat <- rep(c("A", "B"), 5)
+qplot(iris$Sepal.Length, iris$Sepal.Width, geom="point")
+````
+
+## Prints dots with different sizes and colors
+
+```{r}
+qplot(Sepal.Length, Petal.Width, data = iris, geom="point",
+      size=Petal.Length,col=Species,
+      main="Dot Size and Color Relative to Some Values")
+```
+
+
+## Drops legend
+
+```{r}
+qplot(Sepal.Length, Petal.Width, data = iris, geom="point",col=Species)+
+       theme(legend.position = "none")
+```
+
+
+
+## Plot different shapes
+
+```{r}
+qplot(Sepal.Length, Petal.Width, data = iris, geom="point",
+      shape=iris$Species,size=2)
+```
+
+## Scatter Plot with Regression Line
+
+```{r}
+qplot(Sepal.Length, Petal.Width, data = iris, geom = c("point"))+
+            geom_smooth(method=lm,col=2)
+```
+
+## More application of qplot
+
+```{r}
+qplot(Sepal.Length, Petal.Width, data = iris, facets = Species ~ Petal.Length)
+```
